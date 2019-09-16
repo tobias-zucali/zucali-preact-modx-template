@@ -16,7 +16,7 @@ jobs:
     - name: install
       run: npm install
     - name: build
-      run: run build
+      run: npm run build
       env:
         CI: true
     ## TODO: fix preact test environment
