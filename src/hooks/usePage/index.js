@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'preact/hooks'
 import getResources from '../../utils/getResources'
 
+
 const pageCache = {}
 
-export default function usePage(id) {
-  const cachedPage = pageCache[id]
-  const [page, setPage] = useState(cachedPage)
+export default function usePage({
+  id,
+  childNodes,
+}, {
+  includeChildNodes,
+} = {}) {
+  const [page, setPage] = useState(pageCache[id])
   useEffect(async () => {
-    if (cachedPage) {
-      setPage(cachedPage)
+    if (page) {
+      return
     }
-    const { results } = await getResources({ id })
-    setPage(results)
+    const result = await getResources({ id })
+    const { object } = result
+    pageCache[id] = object
+    setPage(object)
   }, [id])
   return page
 }

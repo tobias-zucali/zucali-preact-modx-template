@@ -3,7 +3,10 @@ import { route, Router } from 'preact-router'
 
 import getNodeHref from '../../utils/getNodeHref'
 import usePageStructure from '../../hooks/usePageStructure'
+
 import Todo from '../Todo'
+import Home from '../Home'
+
 import Header from '../../components/Header'
 import SiteMap from '../../components/SiteMap'
 
@@ -18,10 +21,6 @@ const redirectHtmlUrls = ({ url }) => {
 
 export default function App() {
   const rootNode = usePageStructure()
-
-  if (rootNode) {
-    console.log({ rootNode })
-  }
 
   return (
     <div id="app">
@@ -43,7 +42,7 @@ export default function App() {
               />
             )
           })}
-          <Todo
+          <Home
             default
             node={rootNode}
           />
