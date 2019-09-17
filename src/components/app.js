@@ -1,9 +1,11 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import { Link, Router } from 'preact-router'
+import Match from 'preact-router/match'
 
 import Header from './header'
 
 import usePageStructure from '../hooks/usePageStructure'
+import Main from '../containers/Main'
 
 
 function getHref({
@@ -32,13 +34,7 @@ function SiteMap({ node }) {
       <ul>
         {childNodes.map((child) => (
           <SiteMap
-            node={{
-              ...child,
-              parentNodes: [
-                ...parentNodes,
-                node,
-              ],
-            }}
+            node={child}
           />
         ))}
       </ul>
@@ -55,6 +51,31 @@ export default function App() {
 
   return (
     <div id="app">
+      <Match path="/">
+        { ({ matches, path, url }) => (
+          <pre>{JSON.stringify(matches)}</pre>
+        ) }
+      </Match>
+      <Router>
+        {rootNode ? rootNode.childNodes.map((node) => (
+          <Main
+            node={node}
+            path={getHref({
+              ...node,
+              // parentNodes: [rootNode],
+            })}
+          />
+        )) : null}
+        {rootNode ? rootNode.childNodes.map((node) => (
+          <Main
+            node={node}
+            path={getHref({
+              ...node,
+              // parentNodes: [rootNode],
+            })}
+          />
+        )) : null}
+      </Router>
       {rootNode ? (
         <SiteMap
           node={rootNode}
@@ -63,13 +84,3 @@ export default function App() {
     </div>
   )
 }
-
-/*
-<Header />
-        <Router onChange={this.handleRoute}>
-          <Home path="/" />
-          <Profile path="/profile/" user="me" />
-          <Profile path="/profile/:user" />
-        </Router>
-
-*/
