@@ -1,0 +1,16 @@
+.sitemap {
+}
+
+.sitemap a {
+  color: inherit;
+  will-change: background-color;
+}
+
+.sitemap a:hover,
+.sitemap a:active {
+  background: rgba(0,0,0,0.2);
+}
+
+.sitemap a.active {
+  background: rgba(0,0,0,0.4);
+}
