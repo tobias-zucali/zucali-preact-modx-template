@@ -7,6 +7,9 @@ import Header from './header';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
 
+import usePageStructure from '../hooks/usePageStructure';
+
+
 export default class App extends Component {
 	
 	/** Gets fired when the route changes.
@@ -18,6 +21,8 @@ export default class App extends Component {
 	};
 
 	render() {
+		console.log(usePageStructure());
+
 		return (
 			<div id="app">
 				<Header />
