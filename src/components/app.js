@@ -1,36 +1,75 @@
 import { h, Component } from 'preact'
-import { Router } from 'preact-router'
+import { Link, Router } from 'preact-router'
 
 import Header from './header'
-
-// Code-splitting is automated for routes
-import Home from '../routes/home'
-import Profile from '../routes/profile'
 
 import usePageStructure from '../hooks/usePageStructure'
 
 
-export default class App extends Component {
-  /** Gets fired when the route changes.
-   *  @param {Object} event        "change" event from [preact-router](http://git.io/preact-router)
-   *  @param {string} event.url    The newly routed URL
-   */
-  handleRoute = (e) => {
-    this.currentUrl = e.url
-  };
+function getHref({
+  alias,
+  parentNodes = [],
+}) {
+  const aliases = [
+    ...parentNodes.map((node) => node.alias),
+    alias,
+  ]
+  return `/${aliases.join('/')}`
+}
 
-  render() {
-    console.log(usePageStructure())
+function SiteMap({ node }) {
+  const {
+    alias,
+    parentNodes = [],
+    pagetitle,
+    childNodes = [],
+  } = node
+  return (
+    <div>
+      <Link
+        href={getHref(node)}
+      >{pagetitle}</Link>
+      <ul>
+        {childNodes.map((child) => (
+          <SiteMap
+            node={{
+              ...child,
+              parentNodes: [
+                ...parentNodes,
+                node,
+              ],
+            }}
+          />
+        ))}
+      </ul>
+    </div>
+  )
+}
 
-    return (
-      <div id="app">
-        <Header />
+export default function App() {
+  const rootNode = usePageStructure()
+
+  if (rootNode) {
+    console.log({ rootNode })
+  }
+
+  return (
+    <div id="app">
+      {rootNode ? (
+        <SiteMap
+          node={rootNode}
+        />
+      ) : 'loading'}
+    </div>
+  )
+}
+
+/*
+<Header />
         <Router onChange={this.handleRoute}>
           <Home path="/" />
           <Profile path="/profile/" user="me" />
           <Profile path="/profile/:user" />
         </Router>
-      </div>
-    )
-  }
-}
+
+*/

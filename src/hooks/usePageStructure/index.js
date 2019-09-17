@@ -8,8 +8,10 @@ export default function usePageStructure() {
   const [pageStructure, setPageStructure] = useState()
   useEffect(async () => {
     const { results } = await getResources({ structureOnly: true })
-    const childIds = results.reduce((acc, {
-      contentType, deleted, id, parent,
+    const allChildIds = results.reduce((acc, {
+      deleted,
+      id,
+      parent,
     }) => {
       if (deleted) {
         return acc
@@ -28,14 +30,15 @@ export default function usePageStructure() {
     }), {})
 
     const recursiveGetEntryWithChildren = (entry) => {
-      const children = childIds[entry.id].map(
-        (childId) => resultsById[childId]
+      const childIds = allChildIds[entry.id] || []
+      const childNodes = childIds.map(
+        (childId) => recursiveGetEntryWithChildren(resultsById[childId])
       ).sort(
         (a, b) => a.menuindex - b.menuindex
       )
       return {
         ...entry,
-        children,
+        childNodes,
       }
     }
 
