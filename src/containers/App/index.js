@@ -4,6 +4,7 @@ import { route, Router } from 'preact-router'
 import getNodeHref from '../../utils/getNodeHref'
 import usePageStructure from '../../hooks/usePageStructure'
 import Todo from '../Todo'
+import Header from '../../components/Header'
 import SiteMap from '../../components/SiteMap'
 
 
@@ -24,6 +25,9 @@ export default function App() {
 
   return (
     <div id="app">
+      <Header
+        rootNode={rootNode}
+      />
       {rootNode ? [
         <Router
           key="router"
@@ -31,7 +35,6 @@ export default function App() {
         >
           {rootNode.childNodes.map((node) => {
             const href = getNodeHref(node)
-            const redirectHref = `${href}.html`
             return (
               <Todo
                 key={href}

@@ -1,16 +1,47 @@
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
+
+import getNodeHref from '../../utils/getNodeHref'
+import Logo from '../Logo'
+
 import style from './style.css'
 
-const Header = () => (
-  <header className={style.header}>
-    <h1>Preact App</h1>
-    <nav>
-      <Link activeClassName={style.active} href="/">Home</Link>
-      <Link activeClassName={style.active} href="/profile">Me</Link>
-      <Link activeClassName={style.active} href="/profile/john">John</Link>
-    </nav>
-  </header>
-)
 
-export default Header
+export default function Header({
+  rootNode = {},
+}) {
+  const { childNodes = [] } = rootNode
+  const visibleChildNodes = childNodes.filter(
+    ({ published, hidemenu }) => published && !hidemenu
+  )
+  return (
+    <header className={style.header}>
+      <nav>
+        <Link href="/">
+          <h1>
+            <Logo
+              aria-label="Home"
+            />
+          </h1>
+        </Link>
+        {visibleChildNodes.map((node) => {
+          const href = getNodeHref(
+            { alias: node.alias },
+            {
+              ignoreParents: true,
+              isAnchor: true,
+            }
+          )
+          return (
+            <Link
+              activeClassName={style.active}
+              href={href}
+            >
+              {node.pagetitle}
+            </Link>
+          )
+        })}
+      </nav>
+    </header>
+  )
+}

@@ -1,10 +1,10 @@
 export default function getNodeHref({
   alias,
   parentNodes = [],
-}) {
-  const aliases = [
-    ...parentNodes.map((node) => node.alias),
-    alias,
-  ]
-  return `/${aliases.join('/')}`
+}, {
+  ignoreParents = false,
+  isAnchor = false,
+} = {}) {
+  const parentPath = ignoreParents ? '/' : `/${parentNodes.map((node) => node.alias).join('/')}`
+  return parentPath + (isAnchor ? '#' : '/') + alias
 }
