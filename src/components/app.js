@@ -4,20 +4,10 @@ import Match from 'preact-router/match'
 
 import Header from './header'
 
+import getNodeHref from '../utils/getNodeHref'
 import usePageStructure from '../hooks/usePageStructure'
 import Main from '../containers/Main'
 
-
-function getHref({
-  alias,
-  parentNodes = [],
-}) {
-  const aliases = [
-    ...parentNodes.map((node) => node.alias),
-    alias,
-  ]
-  return `/${aliases.join('/')}`
-}
 
 function SiteMap({ node }) {
   const {
@@ -29,7 +19,7 @@ function SiteMap({ node }) {
   return (
     <div>
       <Link
-        href={getHref(node)}
+        href={getNodeHref(node)}
       >{pagetitle}</Link>
       <ul>
         {childNodes.map((child) => (
@@ -60,19 +50,7 @@ export default function App() {
         {rootNode ? rootNode.childNodes.map((node) => (
           <Main
             node={node}
-            path={getHref({
-              ...node,
-              // parentNodes: [rootNode],
-            })}
-          />
-        )) : null}
-        {rootNode ? rootNode.childNodes.map((node) => (
-          <Main
-            node={node}
-            path={getHref({
-              ...node,
-              // parentNodes: [rootNode],
-            })}
+            path={getNodeHref(node)}
           />
         )) : null}
       </Router>

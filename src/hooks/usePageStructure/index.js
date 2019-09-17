@@ -24,25 +24,29 @@ export default function usePageStructure() {
         ],
       }
     }, {})
-    const resultsById = results.reduce((acc, entry) => ({
+    const resultsById = results.reduce((acc, node) => ({
       ...acc,
-      [entry.id]: entry,
+      [node.id]: node,
     }), {})
 
-    const recursiveGetEntryWithChildren = (entry) => {
-      const childIds = allChildIds[entry.id] || []
+    const recursiveGetNodeWithChildren = (node, parentNodes = []) => {
+      const childIds = allChildIds[node.id] || []
       const childNodes = childIds.map(
-        (childId) => recursiveGetEntryWithChildren(resultsById[childId])
+        (childId) => recursiveGetNodeWithChildren(resultsById[childId], [
+          ...parentNodes,
+          node,
+        ])
       ).sort(
         (a, b) => a.menuindex - b.menuindex
       )
       return {
-        ...entry,
+        ...node,
         childNodes,
+        parentNodes,
       }
     }
 
-    setPageStructure(recursiveGetEntryWithChildren(resultsById[ROOT_ID]))
+    setPageStructure(recursiveGetNodeWithChildren(resultsById[ROOT_ID]))
   }, [])
   return pageStructure
 }
