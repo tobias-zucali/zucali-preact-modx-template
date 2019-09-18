@@ -1,19 +1,41 @@
-.sectionBackground {
-  /* bottom: -100px;
+.section {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+.foreground {
+  background: #FAFAFACC;
+  /* background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 10%,rgba(255,255,255,0.8) 30%,rgba(255,255,255,0.8) 100%); */
+  margin-left: auto;
+  max-width: 80vw;
+  padding: 70vh 1em 1em 2em;
+  position: relative;
+  width: 400px;
+  z-index: 100;
+}
+
+.background {
+  bottom: 0;
   left: 0;
   position: fixed;
   right: 0;
-  top: -100px; */
-
-  position: relative;
-  height: 100px;
+  top: 0;
+  z-index: 1;
 }
 
-.sectionBackgroundImage {
+.backgroundImage {
   background-size: cover;
   bottom: 0;
   left: 0;
+  opacity: 1;
   position: absolute;
   right: 0;
   top: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.backgroundImage.backgroundImage_hidden {
+  opacity: 0;
 }
