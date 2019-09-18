@@ -7,18 +7,25 @@ const pageCache = {}
 export default function usePage({
   id,
   childNodes,
-}, {
-  includeChildNodes,
-} = {}) {
+}) {
   const [page, setPage] = useState(pageCache[id])
   useEffect(async () => {
-    if (page) {
+    if (page && page.childNodes) {
       return
     }
-    const result = await getResources({ id })
-    const { object } = result
-    pageCache[id] = object
-    setPage(object)
+    const [
+      pageResult,
+      ...childNodesResults
+    ] = await Promise.all([
+      getResources({ id }),
+      ...childNodes.map((childNode) => getResources({ id: childNode.id })),
+    ])
+    const pageWithChildren = {
+      ...pageResult.object,
+      childNodes: childNodesResults.map(({ object }) => object),
+    }
+    pageCache[id] = pageWithChildren
+    setPage(pageWithChildren)
   }, [id])
   return page
 }

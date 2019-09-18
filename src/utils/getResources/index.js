@@ -4,11 +4,12 @@ import memoize from 'lodash/memoize'
 export default memoize(({
   id,
   structureOnly,
-}) => new Promise((resolve, reject) => {
+  limit = 99999,
+} = {}) => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest()
   xhr.open(
     'GET',
-    `http://api.zucali.com/resources${id > -1 ? `/${id}` : ''}${structureOnly ? '?structure_only&limit=99999' : ''}`,
+    `http://api.zucali.com/resources${id > -1 ? `/${id}` : ''}?limit=${limit}${structureOnly ? '&structure_only' : ''}`,
     true
   )
   xhr.responseType = 'json'

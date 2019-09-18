@@ -2,13 +2,13 @@ import { h } from 'preact'
 import { route, Router } from 'preact-router'
 
 import getNodeHref from '../../utils/getNodeHref'
-import usePageStructure from '../../hooks/usePageStructure'
+import useStructure from '../../hooks/useStructure'
 
 import Todo from '../Todo'
 import Home from '../Home'
 
+import IntlProvider from '../../components/IntlProvider'
 import Header from '../../components/Header'
-import SiteMap from '../../components/SiteMap'
 
 
 const htmlUrlExp = /([^#?]*)(\.html?)(($|\?|#).*)/i
@@ -20,14 +20,16 @@ const redirectHtmlUrls = ({ url }) => {
 }
 
 export default function App() {
-  const rootNode = usePageStructure()
+  const rootNode = useStructure()
 
   return (
-    <div id="app">
+    <IntlProvider
+      locale="en"
+    >
       <Header
         rootNode={rootNode}
       />
-      {rootNode ? [
+      {rootNode ? (
         <Router
           key="router"
           onChange={redirectHtmlUrls}
@@ -38,6 +40,7 @@ export default function App() {
               <Todo
                 key={href}
                 node={node}
+                rootNode={rootNode}
                 path={href}
               />
             )
@@ -46,12 +49,8 @@ export default function App() {
             default
             node={rootNode}
           />
-        </Router>,
-        <SiteMap
-          key="sitemap"
-          node={rootNode}
-        />,
-      ] : 'loading'}
-    </div>
+        </Router>
+      ) : 'loading'}
+    </IntlProvider>
   )
 }

@@ -1,6 +1,9 @@
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
 
+import usePage from '../../hooks/usePage'
+import useIntl from '../../hooks/useIntl'
+
 import getNodeHref from '../../utils/getNodeHref'
 import Logo from '../Logo'
 
@@ -8,12 +11,15 @@ import style from './style.css'
 
 
 export default function Header({
-  rootNode = {},
+  rootNode,
 }) {
-  const { childNodes = [] } = rootNode
+  const rootPage = (rootNode && usePage(rootNode)) || rootNode
+  const { childNodes = [] } = rootPage || {}
   const visibleChildNodes = childNodes.filter(
     ({ published, hidemenu }) => published && !hidemenu
   )
+  const intl = useIntl()
+
   return (
     <header className={style.header}>
       <nav>
@@ -26,7 +32,9 @@ export default function Header({
         </Link>
         {visibleChildNodes.map((node) => {
           const href = getNodeHref(
-            { alias: node.alias },
+            {
+              alias: node.alias,
+            },
             {
               ignoreParents: true,
               isAnchor: true,
@@ -37,7 +45,7 @@ export default function Header({
               activeClassName={style.active}
               href={href}
             >
-              {node.pagetitle}
+              {intl.getTranslatedAttribute(node, 'pagetitle')}
             </Link>
           )
         })}

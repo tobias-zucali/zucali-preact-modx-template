@@ -4,7 +4,7 @@ import getResources from '../../utils/getResources'
 import { ROOT_ID } from '../../constants'
 
 
-export default function usePageStructure() {
+export default function useStructure() {
   const [pageStructure, setPageStructure] = useState()
   useEffect(async () => {
     const { results } = await getResources({ structureOnly: true })
