@@ -4,10 +4,10 @@ import getResources from '../../utils/getResources'
 import { ROOT_ID } from '../../constants'
 
 
-export default function useStructure() {
+export default function usePages() {
   const [pageStructure, setPageStructure] = useState()
   useEffect(async () => {
-    const { results } = await getResources({ structureOnly: true })
+    const { results } = await getResources()
     const allChildIds = results.reduce((acc, {
       deleted,
       id,
@@ -24,29 +24,29 @@ export default function useStructure() {
         ],
       }
     }, {})
-    const resultsById = results.reduce((acc, node) => ({
+    const resultsById = results.reduce((acc, page) => ({
       ...acc,
-      [node.id]: node,
+      [page.id]: page,
     }), {})
 
-    const recursiveGetNodeWithChildren = (node, parentNodes = []) => {
-      const childIds = allChildIds[node.id] || []
-      const childNodes = childIds.map(
-        (childId) => recursiveGetNodeWithChildren(resultsById[childId], [
-          ...parentNodes,
-          node,
+    const recursiveGetPageWithChildren = (page, parentPages = []) => {
+      const childIds = allChildIds[page.id] || []
+      const childPages = childIds.map(
+        (childId) => recursiveGetPageWithChildren(resultsById[childId], [
+          ...parentPages,
+          page,
         ])
       ).sort(
         (a, b) => a.menuindex - b.menuindex
       )
       return {
-        ...node,
-        childNodes,
-        parentNodes,
+        ...page,
+        childPages,
+        parentPages,
       }
     }
 
-    setPageStructure(recursiveGetNodeWithChildren(resultsById[ROOT_ID]))
+    setPageStructure(recursiveGetPageWithChildren(resultsById[ROOT_ID]))
   }, [])
   return pageStructure
 }

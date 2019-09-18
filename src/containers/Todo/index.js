@@ -4,15 +4,15 @@ import SiteMap from '../../components/SiteMap'
 
 
 export default function Todo({
-  node,
-  rootNode,
+  page,
+  rootPage,
 }) {
   return (
     <div>
-      <h2>Todo: {node.pagetitle}</h2>
+      <h2>Todo: {page.pagetitle}</h2>
       <SiteMap
         key="sitemap"
-        node={rootNode}
+        page={rootPage}
       />
     </div>
   )

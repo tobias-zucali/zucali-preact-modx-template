@@ -1,8 +1,8 @@
 import { h } from 'preact'
 import { route, Router } from 'preact-router'
 
-import getNodeHref from '../../utils/getNodeHref'
-import useStructure from '../../hooks/useStructure'
+import getPageHref from '../../utils/getPageHref'
+import usePages from '../../hooks/usePages'
 
 import Todo from '../Todo'
 import Home from '../Home'
@@ -20,34 +20,34 @@ const redirectHtmlUrls = ({ url }) => {
 }
 
 export default function App() {
-  const rootNode = useStructure()
+  const rootPage = usePages()
 
   return (
     <IntlProvider
       locale="en"
     >
       <Header
-        rootNode={rootNode}
+        rootPage={rootPage}
       />
-      {rootNode ? (
+      {rootPage ? (
         <Router
           key="router"
           onChange={redirectHtmlUrls}
         >
-          {rootNode.childNodes.map((node) => {
-            const href = getNodeHref(node)
+          {rootPage.childPages.map((page) => {
+            const href = getPageHref(page)
             return (
               <Todo
                 key={href}
-                node={node}
-                rootNode={rootNode}
+                page={page}
+                rootPage={rootPage}
                 path={href}
               />
             )
           })}
           <Home
             default
-            node={rootNode}
+            page={rootPage}
           />
         </Router>
       ) : 'loading'}

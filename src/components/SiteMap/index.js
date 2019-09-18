@@ -1,29 +1,29 @@
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
 
-import getNodeHref from '../../utils/getNodeHref'
+import getPageHref from '../../utils/getPageHref'
 
 import style from './style.css'
 
 
-export default function SiteMap({ node }) {
+export default function SiteMap({ page }) {
   const {
     alias,
-    parentNodes = [],
+    parentPages = [],
     pagetitle,
-    childNodes = [],
-  } = node
+    childPages = [],
+  } = page
 
   return (
     <div className={style.sitemap}>
       <Link
         activeClassName={style.active}
-        href={getNodeHref(node)}
+        href={getPageHref(page)}
       >{pagetitle}</Link>
       <ul>
-        {childNodes.map((child) => (
+        {childPages.map((child) => (
           <SiteMap
-            node={child}
+            page={child}
           />
         ))}
       </ul>

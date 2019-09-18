@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
 
+import usePage from '../../hooks/usePage'
 import useIntl from '../../hooks/useIntl'
 
 import getPageHref from '../../utils/getPageHref'
@@ -12,7 +13,8 @@ import style from './style.css'
 export default function Header({
   rootPage,
 }) {
-  const { childPages } = rootPage
+  const rootPage = (rootPage && usePage(rootPage)) || rootPage
+  const { childPages = [] } = rootPage || {}
   const visibleChildPages = childPages.filter(
     ({ published, hidemenu }) => published && !hidemenu
   )
