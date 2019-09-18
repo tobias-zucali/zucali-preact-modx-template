@@ -2,22 +2,16 @@ import { h } from 'preact'
 import { useMemo } from 'preact/hooks'
 
 import Intl from './context'
+import messages from './messages.json'
+import getIntl from './getIntl'
 
-
-const getIntl = (locale) => ({
-  locale,
-  getTranslatedAttribute(obj, key) {
-    const translatedKey = (locale === 'de') ? key : `${key}_${locale}`
-    return obj[translatedKey]
-  },
-})
 
 export default function IntlProvider({
   children,
   locale,
 }) {
   const intl = useMemo(
-    () => getIntl(locale),
+    () => getIntl({ locale, messages }),
     [locale]
   )
   return (

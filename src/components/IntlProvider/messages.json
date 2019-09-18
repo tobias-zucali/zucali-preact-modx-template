@@ -1,0 +1,92 @@
+{
+  "home": {
+    "de": "Startseite",
+    "en": "Home",
+    "es": "Página inicial"
+  },
+  "pageTitle": {
+    "de": "Zucali Gitarren",
+    "en": "Zucali Guitars",
+    "es": "Zucali Guitarras"
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "es": "Español"
+  },
+  "langCode": {
+    "de": "de_AT",
+    "en": "en_US",
+    "es": "es_ES"
+  },
+  "switchLanguage": {
+    "de": "Zur deutschen Version wechseln",
+    "en": "Switch to English version",
+    "es": "Cambiar a la versión española"
+  },
+  "maker": {
+    "de": "Hersteller",
+    "en": "Luthier",
+    "es": "Luthier"
+  },
+  "model": {
+    "de": "Modell",
+    "en": "Model",
+    "es": "Modelo"
+  },
+  "cover": {
+    "de": "Decke",
+    "en": "Soundboard",
+    "es": "Tapa"
+  },
+  "base": {
+    "de": "Boden und Zarge",
+    "en": "Back",
+    "es": "Fondo"
+  },
+  "shape": {
+    "de": "Umrissform",
+    "en": "Shape",
+    "es": "Plantilla"
+  },
+  "finish": {
+    "de": "Lackierung",
+    "en": "Lacquer",
+    "es": "Barnizado"
+  },
+  "machineHeads": {
+    "de": "Mechanik",
+    "en": "Tuners",
+    "es": "Afinadores"
+  },
+  "year": {
+    "de": "Baujahr",
+    "en": "year of conuction",
+    "es": "año de conucción"
+  },
+  "scale": {
+    "de": "Mensur",
+    "en": "Scale",
+    "es": "Scala"
+  },
+  "width": {
+    "de": "Halsbreite (Sattel / 12. Bund)",
+    "en": "Neck (nut, 12th fret)",
+    "es": "Mastil (hueso, traste 12)"
+  },
+  "count": {
+    "de": "Saitenanzahl",
+    "en": "Number of ings",
+    "es": "Número de cuerdas"
+  },
+  "tuning": {
+    "de": "Stimmung",
+    "en": "Tuning",
+    "es": "Afinación"
+  },
+  "category": {
+    "de": "Kategorien",
+    "en": "Category",
+    "es": "Categoría"
+  }
+}
