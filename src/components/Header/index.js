@@ -9,13 +9,19 @@ import Logo from '../Logo'
 import style from './style.css'
 
 
+const getVisibleChildPages = (page) => {
+  if (!page) {
+    return []
+  }
+  const { childPages } = page
+  return childPages.filter(
+    ({ published, hidemenu }) => published && !hidemenu
+  )
+}
+
 export default function Header({
   rootPage,
 }) {
-  const { childPages } = rootPage
-  const visibleChildPages = childPages.filter(
-    ({ published, hidemenu }) => published && !hidemenu
-  )
   const intl = useIntl()
 
   return (
@@ -28,7 +34,7 @@ export default function Header({
             />
           </h1>
         </Link>
-        {visibleChildPages.map((page) => {
+        {getVisibleChildPages(rootPage).map((page) => {
           const href = getPageHref(
             {
               alias: page.alias,
