@@ -1,11 +1,11 @@
 {
-  "name": "zucali-preact-modx-template",
-  "short_name": "zucali-template",
+  "name": "Zucali Guitars",
+  "short_name": "Zucali Guitars",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fff",
-  "theme_color": "#673ab8",
+  "background_color": "#ffffff",
+  "theme_color": "#D80808",
   "icons": [
     {
       "src": "/assets/icons/android-chrome-192x192.png",
