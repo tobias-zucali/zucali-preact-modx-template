@@ -4,20 +4,11 @@ import { Link } from 'preact-router/match'
 import useIntl from '../../hooks/useIntl'
 
 import getPageHref from '../../utils/getPageHref'
+import filterPages from '../../utils/filterPages'
 import Logo from '../Logo'
 
 import style from './style.css'
 
-
-const getVisibleChildPages = (page) => {
-  if (!page) {
-    return []
-  }
-  const { childPages } = page
-  return childPages.filter(
-    ({ published, hidemenu }) => published && !hidemenu
-  )
-}
 
 export default function Header({
   rootPage,
@@ -34,7 +25,10 @@ export default function Header({
             />
           </h1>
         </Link>
-        {getVisibleChildPages(rootPage).map((page) => {
+        {filterPages(
+          rootPage && rootPage.childPages,
+          { hidemenu: false }
+        ).map((page) => {
           const href = getPageHref(
             {
               alias: page.alias,

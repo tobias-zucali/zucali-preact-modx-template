@@ -1,0 +1,19 @@
+.sectionBackground {
+  /* bottom: -100px;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: -100px; */
+
+  position: relative;
+  height: 100px;
+}
+
+.sectionBackgroundImage {
+  background-size: cover;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
