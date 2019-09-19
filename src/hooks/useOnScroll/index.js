@@ -2,19 +2,25 @@ import { useEffect, useState } from 'preact/hooks'
 import debounce from 'lodash/debounce'
 
 
+const IS_BROWSER = (typeof window !== 'undefined')
+
+const scrollingElement = IS_BROWSER ? window.document.scrollingElement : {}
+
 export const getCallbackArgs = () => ({
-  windowHeight: window.document.scrollingElement.offsetHeight,
-  scrollTop: window.document.scrollingElement.scrollTop,
-  scrollLeft: window.document.scrollingElement.scrollLeft,
+  windowHeight: scrollingElement.offsetHeight || 0,
+  scrollTop: scrollingElement.scrollTop || 0,
+  scrollLeft: scrollingElement.scrollLeft || 0,
 })
 
 let callbacks = []
-window.addEventListener('scroll', debounce(async () => {
-  const args = getCallbackArgs()
-  callbacks.forEach((callback) => {
-    callback(args)
-  })
-}), 100)
+if (IS_BROWSER) {
+  window.addEventListener('scroll', debounce(async () => {
+    const args = getCallbackArgs()
+    callbacks.forEach((callback) => {
+      callback(args)
+    })
+  }), 100)
+}
 
 export default function useOnScroll(callback) {
   useEffect(() => {
