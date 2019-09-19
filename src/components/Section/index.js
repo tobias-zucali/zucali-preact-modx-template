@@ -24,8 +24,7 @@ export default function Section({
           <blockquote
             className={style.quote}
             style={`
-              top: ${sectionBackground.topOffset * -6 + 200}px;
-              margin-left: ${sectionBackground.sideOffset * -1}px;
+              bottom: ${sectionBackground.parallaxScale * 100 - 10}vh;
             `}
           >
             {data.quote}
@@ -52,8 +51,7 @@ export default function Section({
           })}
           style={`
             background-image: url(${sectionBackground.url});
-            margin-top: ${sectionBackground.topOffset * -1}px;
-            margin-left: ${sectionBackground.sideOffset * -1}px;
+            transform: scale(${sectionBackground.parallaxScale * 0.2 + 1});
           `}
         />
       </div>

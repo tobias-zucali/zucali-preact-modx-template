@@ -5,7 +5,6 @@ import useScrollCallback from '../../hooks/useScrollCallback'
 import getCmsImageUrl from '../../utils/getCmsImageUrl'
 
 
-const BACKGROUND_MARGIN = 100
 const SCROLL_POSITION_GAP = 0.5
 
 const getElementScrollPosition = (event, element) => {
@@ -46,14 +45,12 @@ export default function useSectionBackground(path) {
   })
 
   const isVisible = isCoverImageLoaded && scrollPosition >= 0 && scrollPosition <= 1
-  const topOffset = (scrollPosition + SCROLL_POSITION_GAP) * BACKGROUND_MARGIN
-  const sideOffset = ((1 + SCROLL_POSITION_GAP - scrollPosition) * BACKGROUND_MARGIN) / 2
+  const parallaxScale = (scrollPosition + SCROLL_POSITION_GAP) / (1 + 2 * SCROLL_POSITION_GAP)
 
   return {
     url,
     isVisible,
-    topOffset,
-    sideOffset,
+    parallaxScale,
     sectionRef,
   }
 }
