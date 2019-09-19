@@ -2,7 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 import debounce from 'lodash/debounce'
 
 
-const getCallbackArgs = () => ({
+export const getCallbackArgs = () => ({
   windowHeight: window.document.scrollingElement.offsetHeight,
   scrollTop: window.document.scrollingElement.scrollTop,
   scrollLeft: window.document.scrollingElement.scrollLeft,
@@ -16,7 +16,7 @@ window.addEventListener('scroll', debounce(async () => {
   })
 }), 100)
 
-export default function useScrollCallback(callback) {
+export default function useOnScroll(callback) {
   useEffect(() => {
     callbacks = [
       ...callbacks,

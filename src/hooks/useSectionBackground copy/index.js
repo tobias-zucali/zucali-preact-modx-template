@@ -1,7 +1,7 @@
 import { useRef, useState } from 'preact/hooks'
 
-import useImagePreload from '../../hooks/useImagePreload'
-import useScrollCallback from '../../hooks/useScrollCallback'
+import useImagePreload from '../useImagePreload'
+import useOnScroll from '../../hooks/useOnScroll'
 import getCmsImageUrl from '../../utils/getCmsImageUrl'
 
 
@@ -37,7 +37,7 @@ export default function useSectionBackground(path) {
 
   const sectionRef = useRef()
   const [scrollPosition, setScrollPosition] = useState(0)
-  useScrollCallback((event) => {
+  useOnScroll((event) => {
     const newScrollPosition = getElementScrollPosition(event, sectionRef.current)
     if (scrollPosition !== newScrollPosition) {
       setScrollPosition(newScrollPosition)

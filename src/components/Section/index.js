@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import classnames from 'classnames'
 
-import useSectionBackground from './useSectionBackground'
+import useSectionBackground from '../../hooks/useSectionBackground'
 import useIntl from '../../hooks/useIntl'
 
 import style from './style.css'
