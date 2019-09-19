@@ -4,8 +4,6 @@ import classnames from 'classnames'
 import useSectionBackground from './useSectionBackground'
 import useIntl from '../../hooks/useIntl'
 
-import SideBar from '../SideBar'
-
 import style from './style.css'
 
 
@@ -21,6 +19,18 @@ export default function Section({
       ref={sectionBackground.sectionRef}
     >
       <div className={style.foreground}>
+        {data.quote && (
+          <blockquote
+            className={style.quote}
+            style={`
+              top: ${sectionBackground.topOffset * -6 + 200}px;
+              margin-left: ${sectionBackground.sideOffset * -1}px;
+            `}
+          >
+            {data.quote}
+          </blockquote>
+        )}
+
         <h2>{intl.getTranslatedAttribute(data, 'pagetitle')}</h2>
         <div
           className={style.content}

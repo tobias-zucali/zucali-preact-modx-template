@@ -2,18 +2,41 @@
   display: flex;
   overflow: hidden;
   position: relative;
-  min-height: 100vh;
+  min-height: 140vh;
 }
 
 .foreground {
   background: #FAFAFACC;
-  /* background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 10%,rgba(255,255,255,0.8) 30%,rgba(255,255,255,0.8) 100%); */
   margin-left: auto;
   max-width: 80vw;
-  padding: 70vh 1em 1em 2em;
+  padding: 70vh 2em 2em 4em;
   position: relative;
-  width: 400px;
+  width: 28em;
   z-index: 100;
+}
+
+.quote {
+  background: #FAFAFA;
+  margin: 0;
+  padding: 2em;
+  position: relative;
+  right: 18em;
+  width: 34em;
+}
+.quote:before,
+.quote::after {
+  font-size: 500%;
+  position: absolute;
+}
+.quote:before {
+    content: "“";
+    left: 0;
+    bottom: -3rem
+}
+.quote:after {
+    content: "”";
+    right: 0;
+    top: -1rem
 }
 
 .background {
@@ -34,6 +57,7 @@
   right: 0;
   top: 0;
   transition: opacity 0.5s ease-in-out;
+  will-change: margin-top, margin-left, margin-right, opacity;
 }
 
 .backgroundImage.backgroundImage_hidden {
