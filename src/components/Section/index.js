@@ -10,6 +10,7 @@ import style from './style.css'
 export default function Section({
   data,
 }) {
+  // console.log({ data })
   const intl = useIntl()
   const sectionBackground = useSectionBackground(data.cover)
 
@@ -28,6 +29,13 @@ export default function Section({
             `}
           >
             {data.quote}
+            {data.quoteAuthor && (
+              <cite
+                className={classnames('regular', style.quoteAuthor)}
+              >
+                {data.quoteAuthor}
+              </cite>
+            )}
           </blockquote>
         )}
 

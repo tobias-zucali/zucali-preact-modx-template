@@ -17,8 +17,11 @@
 
 .quote {
   background: #FAFAFA;
+  color: #000000;
+  font-size: 1.2rem;
+  line-height: 1.5;
   margin: 0;
-  padding: 2em;
+  padding: 1em;
   position: relative;
   right: 18em;
   width: 34em;
@@ -27,16 +30,24 @@
 .quote::after {
   font-size: 500%;
   position: absolute;
+  text-shadow: 0 0 80px #FAFAFA;
 }
 .quote:before {
-    content: "“";
-    left: 0;
-    bottom: -3rem
+  bottom: -5.4rem;
+  content: "“";
+  left: -0.15em;
+
 }
 .quote:after {
-    content: "”";
-    right: 0;
-    top: -1rem
+  content: "”";
+  right: -0.15em;
+  top: -3rem;
+}
+.quoteAuthor {
+  display: block;
+  font-size: 1rem;
+  font-style: normal;
+  text-align: right;
 }
 
 .background {
