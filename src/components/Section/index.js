@@ -24,7 +24,7 @@ export default function Section({
           <blockquote
             className={style.quote}
             style={{
-              bottom: `${sectionBackground.parallaxScale * 100 - 10}vh`,
+              bottom: `${sectionBackground.parallaxScale * 600 - 100}px`,
             }}
           >
             {data.quote}

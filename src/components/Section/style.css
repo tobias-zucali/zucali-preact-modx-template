@@ -67,7 +67,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  transform-origin: bottom left;
+  transform-origin: 20% 80%;
   transition: opacity 0.5s ease-in-out;
   will-change: transform, opacity;
 }
