@@ -3,7 +3,7 @@ name: Build & run tests
 on: [push]
 
 jobs:
-  test:
+  test & build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,9 +16,7 @@ jobs:
       run: npm install
     - name: lint
       run: npm run lint
-    - name: build
+    - name: test & build
       run: npm run build
       env:
         CI: true
-    - name: test
-      run: run test
