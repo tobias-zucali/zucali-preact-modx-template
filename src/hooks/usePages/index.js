@@ -1,13 +1,41 @@
 import { useEffect, useState } from 'preact/hooks'
-import getResources from '../../utils/getResources'
+import memoize from 'lodash/memoize'
 
-import { ROOT_ID } from '../../constants'
+import { Host, ROOT_ID } from '../../constants'
 
+
+const getResources = memoize(({
+  id,
+  structureOnly,
+  limit = 99999,
+} = {}) => new Promise((resolve, reject) => {
+  const xhr = new XMLHttpRequest()
+  xhr.open(
+    'GET',
+    `${Host.BASE}/resources.json`,
+    true
+  )
+  xhr.responseType = 'json'
+
+  xhr.onload = () => {
+    const { status } = xhr
+
+    if (status === 200) {
+      resolve(xhr.response)
+    } else {
+      reject(
+        Error(`getResources failed with status ${status}`)
+      )
+    }
+  }
+
+  xhr.send()
+}))
 
 export default function usePages() {
   const [pageStructure, setPageStructure] = useState()
   useEffect(async () => {
-    const { results } = await getResources()
+    const results = await getResources()
     const allChildIds = results.reduce((acc, {
       deleted,
       id,

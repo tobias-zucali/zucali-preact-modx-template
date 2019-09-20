@@ -2,7 +2,7 @@ import { h } from 'preact'
 import { route, Router } from 'preact-router'
 
 import getPageHref from '../../utils/getPageHref'
-import usePages from '../../hooks/usePages'
+import useResources from '../../hooks/useResources'
 
 import Todo from '../Todo'
 import Home from '../Home'
@@ -20,7 +20,7 @@ const redirectHtmlUrls = ({ url }) => {
 }
 
 export default function App() {
-  const rootPage = usePages()
+  const rootPage = useResources()
 
   return (
     <IntlProvider
