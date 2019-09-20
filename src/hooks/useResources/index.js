@@ -32,7 +32,7 @@ const getResources = memoize(({
   xhr.send()
 }))
 
-export default function usePages() {
+export default function useResources() {
   const [pageStructure, setPageStructure] = useState()
   useEffect(async () => {
     const results = await getResources()
