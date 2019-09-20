@@ -3,7 +3,6 @@ import { Link } from 'preact-router/match'
 import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
-import useIsScrolledToTop from '../../hooks/useIsScrolledToTop'
 
 import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
@@ -15,33 +14,21 @@ import style from './style.css'
 export default function Header({
   rootPage,
 }) {
-  const isTop = useIsScrolledToTop()
   const intl = useIntl()
+
+  const isLoaded = rootPage && rootPage.childPages
 
   return (
     <header
       className={classnames(style.header, {
-        [style.header_small]: !isTop,
+        [style.header_loaded]: isLoaded,
       })}
     >
-      <Link
-        aria-hidden="true"
-        className={style.logoLink}
-        href="/"
-        tabIndex="-1"
-      >
-        <Logo
-          aria-label="Home"
-          className={style.logo}
-        />
-      </Link>
       <nav
         className={style.nav}
       >
         <Link
-          className={classnames(style.homeLink, {
-            [style.homeLink_isHidden]: isTop,
-          })}
+          className={classnames(style.homeLink)}
           href="/"
         >
           <h1
@@ -54,8 +41,8 @@ export default function Header({
             />
           </h1>
         </Link>
-        {filterPages(
-          rootPage && rootPage.childPages,
+        {isLoaded && filterPages(
+          rootPage.childPages,
           { hidemenu: false }
         ).map((page) => {
           const href = getPageHref(page)
