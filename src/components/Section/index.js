@@ -23,9 +23,9 @@ export default function Section({
         {data.quote && (
           <blockquote
             className={style.quote}
-            style={`
-              bottom: ${sectionBackground.parallaxScale * 100 - 10}vh;
-            `}
+            style={{
+              bottom: `${sectionBackground.parallaxScale * 100 - 10}vh`,
+            }}
           >
             {data.quote}
             {data.quoteAuthor && (
@@ -49,10 +49,10 @@ export default function Section({
           className={classnames(style.backgroundImage, {
             [style.backgroundImage_hidden]: !sectionBackground.isVisible,
           })}
-          style={`
-            background-image: url(${sectionBackground.url});
-            transform: scale(${sectionBackground.parallaxScale * 0.2 + 1});
-          `}
+          style={{
+            backgroundImage: `url(${sectionBackground.url})`,
+            transform: `scale(${sectionBackground.parallaxScale * 0.2 + 1})`,
+          }}
         />
       </div>
     </div>
