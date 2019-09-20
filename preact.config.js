@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 
 export default {
+  sw: false,
+
   // you can add preact-cli plugins here
   plugins: [
   ],
