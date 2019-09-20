@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'preact/hooks'
-import memoize from 'lodash/memoize'
 
 import { Host, ROOT_ID } from '../../constants'
 
 
-const getResources = memoize(({
-  id,
-  structureOnly,
-  limit = 99999,
-} = {}) => new Promise((resolve, reject) => {
+const IS_BROWSER = (typeof window !== 'undefined')
+
+const getResources = () => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest()
   xhr.open(
     'GET',
@@ -30,51 +27,61 @@ const getResources = memoize(({
   }
 
   xhr.send()
-}))
+})
+
+const prepareResources = (resources) => {
+  const allChildIds = resources.reduce((acc, {
+    deleted,
+    id,
+    parent,
+  }) => {
+    if (deleted) {
+      return acc
+    }
+    return {
+      ...acc,
+      [parent]: [
+        ...(acc[parent] || []),
+        id,
+      ],
+    }
+  }, {})
+  const resourcesById = resources.reduce((acc, page) => ({
+    ...acc,
+    [page.id]: page,
+  }), {})
+
+  const recursiveGetPageWithChildren = (page, parentPages = []) => {
+    const childIds = allChildIds[page.id] || []
+    const childPages = childIds.map(
+      (childId) => recursiveGetPageWithChildren(resourcesById[childId], [
+        ...parentPages,
+        page,
+      ])
+    ).sort(
+      (a, b) => a.menuindex - b.menuindex
+    )
+    return {
+      ...page,
+      childPages,
+      parentPages,
+    }
+  }
+
+  return recursiveGetPageWithChildren(resourcesById[ROOT_ID])
+}
+
+
+const preloadedResults = (IS_BROWSER && window.ZUCALI_RESOURCES) ? prepareResources(window.ZUCALI_RESOURCES) : undefined
 
 export default function useResources() {
-  const [pageStructure, setPageStructure] = useState()
+  const [pageStructure, setPageStructure] = useState(preloadedResults)
+
   useEffect(async () => {
-    const results = await getResources()
-    const allChildIds = results.reduce((acc, {
-      deleted,
-      id,
-      parent,
-    }) => {
-      if (deleted) {
-        return acc
-      }
-      return {
-        ...acc,
-        [parent]: [
-          ...(acc[parent] || []),
-          id,
-        ],
-      }
-    }, {})
-    const resultsById = results.reduce((acc, page) => ({
-      ...acc,
-      [page.id]: page,
-    }), {})
-
-    const recursiveGetPageWithChildren = (page, parentPages = []) => {
-      const childIds = allChildIds[page.id] || []
-      const childPages = childIds.map(
-        (childId) => recursiveGetPageWithChildren(resultsById[childId], [
-          ...parentPages,
-          page,
-        ])
-      ).sort(
-        (a, b) => a.menuindex - b.menuindex
-      )
-      return {
-        ...page,
-        childPages,
-        parentPages,
-      }
+    if (!preloadedResults) {
+      const results = await getResources()
+      setPageStructure(prepareResources(results))
     }
-
-    setPageStructure(recursiveGetPageWithChildren(resultsById[ROOT_ID]))
   }, [])
   return pageStructure
 }
