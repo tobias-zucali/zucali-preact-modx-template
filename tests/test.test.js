@@ -6,8 +6,8 @@ import { shallow } from 'preact-render-spy'
 import Header from '../src/components/Header'
 
 
-describe('Initial Test of the Header', () => {
-  test('Header renders 3 nav items', () => {
+describe('test if tests work', () => {
+  test('true stays true', () => {
     // TODO: preact-render-spy throws error
     // const context = shallow(<Header />)
     // expect(context.find('h1').text()).toBe('Preact App')

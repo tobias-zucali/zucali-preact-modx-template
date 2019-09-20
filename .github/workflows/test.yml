@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -17,14 +16,9 @@ jobs:
       run: npm install
     - name: lint
       run: npm run lint
-      env:
-        CI: true
     - name: build
       run: npm run build
       env:
         CI: true
-    ## TODO: fix preact test environment
-    # - name: test
-    #   run: run test
-    #   env:
-    #     CI: true
+    - name: test
+      run: run test
