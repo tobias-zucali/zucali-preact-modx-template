@@ -1,14 +1,13 @@
 /* eslint-disable no-param-reassign */
+import devData from './devData.json'
 
 export default function webpack(config, env, helpers, options) {
-  /** you can change the config here * */
+  const htmlWebpackPlugin = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')[0]
 
-  // throw JSON.stringify(
-  //   helpers.getPluginsByName(config, 'HtmlWebpackPlugin'),
-  //   null,
-  //   2
-  // )
   if (env.isProd) {
     config.output.publicPath = '/assets/templates/zucali-preact-modx-template_build/'
+    htmlWebpackPlugin.plugin.options.devData = '[[getResourcesJson]]'
+  } else {
+    htmlWebpackPlugin.plugin.options.devData = JSON.stringify(devData, null, 2)
   }
 }

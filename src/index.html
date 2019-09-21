@@ -6,10 +6,10 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-    <script>try { window.ZUCALI_RESOURCES = [[getResourcesJson]] } catch (e) { console.warn('preloading resources failed', e) }</script>
 		<% preact.headEnd %>
 	</head>
 	<body>
 		<% preact.bodyEnd %>
+    <script>try { window.ZUCALI_RESOURCES = <%= htmlWebpackPlugin.options.devData %> } catch (e) { console.warn('preloading resources failed', e) }</script>
 	</body>
 </html>
