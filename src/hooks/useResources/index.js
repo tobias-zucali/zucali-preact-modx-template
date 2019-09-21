@@ -2,10 +2,14 @@ import { useEffect, useState } from 'preact/hooks'
 
 import { Host, ROOT_ID } from '../../constants'
 
+import devResources from './devResources'
+
 
 const IS_BROWSER = (typeof window !== 'undefined')
 
 // Requesting resources via XMLHttpRequest is only used for "npm run serve".
+// In development mode the resources are injected via devResources.
+// In production build the resources are injected via a snippet call in the html template.
 const getResources = () => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest()
   xhr.open(
@@ -72,8 +76,8 @@ const prepareResources = (resources) => {
   return recursiveGetPageWithChildren(resourcesById[ROOT_ID])
 }
 
-const preloadedResults = (IS_BROWSER && window.ZUCALI_RESOURCES)
-  ? prepareResources(window.ZUCALI_RESOURCES)
+const preloadedResults = (IS_BROWSER && (window.ZUCALI_RESOURCES || devResources))
+  ? prepareResources(window.ZUCALI_RESOURCES || devResources)
   : undefined
 
 export default function useResources() {
