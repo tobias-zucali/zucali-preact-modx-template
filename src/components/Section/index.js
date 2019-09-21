@@ -12,19 +12,24 @@ export default function Section({
 }) {
   // console.log({ data })
   const intl = useIntl()
-  const sectionBackground = useSectionBackground(data.cover)
+  const {
+    url,
+    isVisible,
+    parallaxScale,
+    sectionRef,
+  } = useSectionBackground(data.cover)
 
   return (
     <div
       className={style.section}
-      ref={sectionBackground.sectionRef}
+      ref={sectionRef}
     >
       <div className={style.foreground}>
         {data.quote && (
           <blockquote
             className={style.quote}
             style={{
-              bottom: `${sectionBackground.parallaxScale * 600 - 100}px`,
+              bottom: `${parallaxScale * 600 - 100}px`,
             }}
           >
             {data.quote}
@@ -47,11 +52,11 @@ export default function Section({
       <div className={style.background}>
         <div
           className={classnames(style.backgroundImage, {
-            [style.backgroundImage_hidden]: !sectionBackground.isVisible,
+            [style.backgroundImage_hidden]: !isVisible,
           })}
           style={{
-            backgroundImage: `url(${sectionBackground.url})`,
-            transform: `scale(${sectionBackground.parallaxScale * 0.2 + 1})`,
+            backgroundImage: `url(${url})`,
+            transform: `scale(${parallaxScale * 0.2 + 1})`,
           }}
         />
       </div>

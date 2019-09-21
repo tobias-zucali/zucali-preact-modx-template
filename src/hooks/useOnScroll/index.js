@@ -14,12 +14,12 @@ export const getCallbackArgs = () => ({
 
 let callbacks = []
 if (IS_BROWSER) {
-  window.addEventListener('scroll', debounce(async () => {
+  window.addEventListener('scroll', async () => {
     const args = getCallbackArgs()
     callbacks.forEach((callback) => {
       callback(args)
     })
-  }), 100)
+  })
 }
 
 export default function useOnScroll(callback) {
