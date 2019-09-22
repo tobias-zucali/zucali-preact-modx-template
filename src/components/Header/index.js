@@ -30,12 +30,12 @@ export default function Header({
   return (
     <header>
       <div className={style.background} />
-      {/* <Logo
+      <Logo
         className={classnames(style.sideLogo, {
-          [style.sideLogo_isScrolledToTop]: isScrolledToTop,
+          [style.sideLogo_isHidden]: !isScrolledToTop,
         })}
         small={false}
-      /> */}
+      />
       <nav
         className={classnames(style.header, {
           [style.header_isVisible]: isLoaded,

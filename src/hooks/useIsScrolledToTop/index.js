@@ -3,7 +3,7 @@ import { useRef, useState } from 'preact/hooks'
 import useOnScroll, { getCallbackArgs } from '../useOnScroll'
 
 
-const GAP = 10
+const GAP = 100
 const checkIsTop = ({ scrollTop }) => scrollTop <= GAP
 
 export default function useIsScrolledToTop(path) {
