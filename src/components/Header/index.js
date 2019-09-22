@@ -29,6 +29,7 @@ export default function Header({
     <header
       className={classnames(style.header, {
         [style.header_loaded]: isLoaded,
+        [style.header_isMenuOpen]: isMenuOpen,
       })}
     >
       <nav>
@@ -45,18 +46,18 @@ export default function Header({
         />
         <ul
           aria-labelledby={hamburgerId}
-          className={style.menu}
+          className={classnames(style.menu, {
+            [style.menu_isOpen]: isMenuOpen,
+          })}
           id={menuId}
           role="menu"
         >
           <li
             className={style.menuEntry}
-            role="none"
           >
             <Link
               className={classnames(style.homeLink)}
               href="/"
-              role="menuitem"
             >
               <h1
                 className={style.homeHeading}
@@ -66,6 +67,11 @@ export default function Header({
                   className={style.homeLogo}
                   small={true}
                 />
+                <span
+                  className={style.homeText}
+                >
+                  Home
+                </span>
               </h1>
             </Link>
           </li>
@@ -78,8 +84,6 @@ export default function Header({
               <li
                 className={style.menuEntry}
                 key={href}
-                role="menuitem"
-                role="none"
               >
                 <Link
                   activeClassName={style.active}

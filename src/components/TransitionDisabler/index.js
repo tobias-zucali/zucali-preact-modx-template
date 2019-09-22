@@ -11,7 +11,7 @@ export default function App(props) {
   useEffect(() => {
     setTimeout(() => {
       setIsDisabled(false)
-    }, 500)
+    }, 100)
   }, [])
 
   return (
