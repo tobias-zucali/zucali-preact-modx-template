@@ -4,6 +4,7 @@ import { Link } from 'preact-router/match'
 import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
+import useId from '../../hooks/useId'
 
 import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
@@ -11,13 +12,15 @@ import filterPages from '../../utils/filterPages'
 import Hamburger from '../Hamburger'
 import Logo from '../Logo'
 
-import style from './style.css'
+import style from './style.scss'
 
 
 export default function Header({
   rootPage,
 }) {
   const intl = useIntl()
+  const menuId = useId()
+  const hamburgerId = useId()
   const [isMenuOpen, setMenuOpen] = useState(false)
 
   const isLoaded = rootPage && rootPage.childPages
@@ -29,20 +32,31 @@ export default function Header({
       })}
     >
       <nav>
-        {/* <Hamburger
+        <Hamburger
+          aria-controls={menuId}
+          aria-expanded={isMenuOpen}
+          aria-haspopup="true"
+          aria-label="Menu" // TODO: use Intl
           className={style.hamburger}
-          isOpen={() => isMenuOpen}
+          id={hamburgerId}
+          isOpen={isMenuOpen}
           onClick={() => setMenuOpen(!isMenuOpen)}
-        /> */}
+          role="button"
+        />
         <ul
+          aria-labelledby={hamburgerId}
           className={style.menu}
+          id={menuId}
+          role="menu"
         >
           <li
             className={style.menuEntry}
+            role="none"
           >
             <Link
               className={classnames(style.homeLink)}
               href="/"
+              role="menuitem"
             >
               <h1
                 className={style.homeHeading}
@@ -64,6 +78,8 @@ export default function Header({
               <li
                 className={style.menuEntry}
                 key={href}
+                role="menuitem"
+                role="none"
               >
                 <Link
                   activeClassName={style.active}
