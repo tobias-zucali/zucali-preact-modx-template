@@ -28,19 +28,20 @@ export default function Header({
   const isLoaded = rootPage && rootPage.childPages
 
   return (
-    <header
-      className={classnames(style.header, {
-        [style.header_isVisible]: isLoaded,
-        [style.header_isMenuOpen]: isMenuOpen,
-      })}
-    >
+    <header>
+      <div className={style.background} />
       {/* <Logo
         className={classnames(style.sideLogo, {
           [style.sideLogo_isScrolledToTop]: isScrolledToTop,
         })}
         small={false}
       /> */}
-      <nav>
+      <nav
+        className={classnames(style.header, {
+          [style.header_isVisible]: isLoaded,
+          [style.header_isMenuOpen]: isMenuOpen,
+        })}
+      >
         <Hamburger
           aria-controls={menuId}
           aria-expanded={isMenuOpen}
