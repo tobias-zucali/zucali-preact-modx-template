@@ -5,6 +5,7 @@ import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
 import useId from '../../hooks/useId'
+import useIsScrolledToTop from '../../hooks/useIsScrolledToTop'
 
 import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
@@ -21,6 +22,7 @@ export default function Header({
   const intl = useIntl()
   const menuId = useId()
   const hamburgerId = useId()
+  const isScrolledToTop = useIsScrolledToTop()
   const [isMenuOpen, setMenuOpen] = useState(false)
 
   const isLoaded = rootPage && rootPage.childPages
@@ -28,10 +30,16 @@ export default function Header({
   return (
     <header
       className={classnames(style.header, {
-        [style.header_loaded]: isLoaded,
+        [style.header_isVisible]: isLoaded,
         [style.header_isMenuOpen]: isMenuOpen,
       })}
     >
+      {/* <Logo
+        className={classnames(style.sideLogo, {
+          [style.sideLogo_isScrolledToTop]: isScrolledToTop,
+        })}
+        small={false}
+      /> */}
       <nav>
         <Hamburger
           aria-controls={menuId}
