@@ -7,6 +7,7 @@ import useResources from '../../hooks/useResources'
 import Todo from '../Todo'
 import Home from '../Home'
 
+import TransitionDisabler from '../../components/TransitionDisabler'
 import IntlProvider from '../../components/IntlProvider'
 import Header from '../../components/Header'
 
@@ -23,34 +24,36 @@ export default function App() {
   const rootPage = useResources()
 
   return (
-    <IntlProvider
-      locale="en"
-    >
-      <Header
-        rootPage={rootPage}
-      />
-      {rootPage ? (
-        <Router
-          key="router"
-          onChange={redirectHtmlUrls}
-        >
-          {rootPage.childPages.map((page) => {
-            const href = getPageHref(page)
-            return (
-              <Todo
-                key={href}
-                page={page}
-                rootPage={rootPage}
-                path={href}
-              />
-            )
-          })}
-          <Home
-            default
-            page={rootPage}
-          />
-        </Router>
-      ) : 'loading'}
-    </IntlProvider>
+    <TransitionDisabler>
+      <IntlProvider
+        locale="en"
+      >
+        <Header
+          rootPage={rootPage}
+        />
+        {rootPage ? (
+          <Router
+            key="router"
+            onChange={redirectHtmlUrls}
+          >
+            {rootPage.childPages.map((page) => {
+              const href = getPageHref(page)
+              return (
+                <Todo
+                  key={href}
+                  page={page}
+                  rootPage={rootPage}
+                  path={href}
+                />
+              )
+            })}
+            <Home
+              default
+              page={rootPage}
+            />
+          </Router>
+        ) : 'loading'}
+      </IntlProvider>
+    </TransitionDisabler>
   )
 }
