@@ -1,0 +1,10 @@
+.hamburger {
+  height: 2em;
+  width: 2em;
+
+  background: red;
+}
+.hamburger_isOpen { }
+.hamburgerStrokeFirst { }
+.hamburgerStroke { }
+.hamburgerStrokeLast { }
