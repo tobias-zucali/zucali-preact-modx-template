@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
-import { Link } from 'preact-router/match'
+import { Link } from 'preact-router'
+import Match from 'preact-router/match'
 import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
@@ -15,6 +16,31 @@ import Logo from '../Logo'
 
 import style from './style.scss'
 
+
+const MenuListEntry = ({
+  className,
+  href,
+  ...otherProps
+}) => (
+  <Match path={href}>
+    {({ matches, path, url }) => {
+      const isParent = !matches && path.startsWith(href)
+      return (
+        <li
+          className={classnames(className, style.menuEntry, {
+            [style.menuEntry_isActive]: matches,
+            [style.menuEntry_isParent]: isParent,
+          })}
+        >
+          <Link
+            className={style.menuEntryLink}
+            href={href}
+            {...otherProps}
+          />
+        </li>)
+    }}
+  </Match>
+)
 
 export default function Header({
   rootPage,
@@ -34,11 +60,16 @@ export default function Header({
       <h1 className={classnames(style.heading, {
         [style.heading_isHidden]: !isScrolledToTop,
       })} >
-      <Logo
-          aria-label={intl.get('pageTitle')}
-          className={style.headingLogo}
-        small={false}
-      />
+        <Link
+          href="/"
+          className={style.headingLink}
+        >
+          <Logo
+            aria-label={intl.get('pageTitle')}
+            className={style.headingLogo}
+            small={false}
+          />
+        </Link>
       </h1>
       <nav
         aria-label={intl.get('mainNav')}
@@ -66,43 +97,24 @@ export default function Header({
           id={menuId}
           role="menu"
         >
-          <li
-            className={style.menuEntry}
+          <MenuListEntry
+            href="/"
+            key="/"
           >
-            <Link
-              className={classnames(style.homeLink)}
-              href="/"
-            >
-                <Logo
-                aria-label={intl.get('home')}
-                  className={style.homeLogo}
-                  small={true}
-                />
-                <span
-                  className={style.homeText}
-                >
-                  Home
-                </span>
-            </Link>
-          </li>
+            {intl.get('home')}
+          </MenuListEntry>
           {isLoaded && filterPages(
             rootPage.childPages,
             { hidemenu: false }
           ).map((page) => {
             const href = getPageHref(page)
             return (
-              <li
-                className={style.menuEntry}
+              <MenuListEntry
+                href={href}
                 key={href}
               >
-                <Link
-                  activeClassName={style.active}
-                  className={style.menuEntryLink}
-                  href={href}
-                >
-                  {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
-                </Link>
-              </li>
+                {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
+              </MenuListEntry>
             )
           })}
         </ul>
