@@ -3,14 +3,6 @@
 @import '../../style/mixins.scss';
 
 
-@mixin hoverStyles {
-  &:hover,
-  &:focus {
-    color: $accentColor;
-    text-decoration: underline;
-  }
-}
-
 .background {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
   position: fixed;
@@ -39,7 +31,7 @@
 }
 .headingLink {
   @include resetLink;
-  @include hoverStyles;
+  @include menuHover;
 }
 .headingLogo {
   padding: 1rem 2rem 0 2rem;
@@ -48,7 +40,7 @@
 
 .menuButton {
   @include resetButton;
-  @include hoverStyles;
+  @include menuHover;
   cursor: pointer;
   left: 0;
   padding: 0.5em;
@@ -77,7 +69,7 @@
   top: 0;
 }
 .navListEntry {
-  @include hoverStyles;
+  @include menuHover;
   display: flex;
 
   &.navListEntry_isActive {
@@ -89,49 +81,4 @@
 .navListEntryLink {
   @include resetLink;
   padding: 0.5em;
-}
-
-.menu {
-  background: #ffffff;
-  display: block;
-  flex-direction: column;
-  height: 0;
-  height: 100%;
-  left: -100%;
-  list-style: none;
-  margin: 0;
-  overflow: auto;
-  padding: 3em 0.25em 0;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  transition: left 0.5s ease-out;
-  width: 100%;
-  z-index: 2000;
-
-  &.menu_isOpen {
-    left: 0;
-    pointer-events: auto;
-  }
-}
-.menuListEntry {
-  display: flex;
-
-  &.menuListEntry_isActive {
-    color: $accentColor;
-    font-weight: 700;
-  }
-  &.menuListEntry_isParent {
-    font-weight: 700;
-  }
-}
-.menuListEntryLink {
-  @include resetLink;
-  padding: 0.5em;
-
-  &:hover,
-  &:focus {
-    color: $accentColor;
-    text-decoration: underline;
-  }
 }

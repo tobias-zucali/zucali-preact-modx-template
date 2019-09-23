@@ -13,6 +13,7 @@ import filterPages from '../../utils/filterPages'
 
 import Hamburger from '../Hamburger'
 import Logo from '../Logo'
+import PageMenu from '../PageMenu'
 
 import style from './style.scss'
 
@@ -35,33 +36,6 @@ const NavListEntry = ({
           <Link
             className={style.navListEntryLink}
             href={href}
-            {...otherProps}
-          />
-        </li>)
-    }}
-  </Match>
-)
-const MenuListEntry = ({
-  className,
-  href,
-  isDisabled,
-  ...otherProps
-}) => (
-  <Match path={href}>
-    {({ matches, path, url }) => {
-      const isParent = !matches && path.startsWith(href)
-      return (
-        <li
-          className={classnames(className, style.menuListEntry, {
-            [style.menuListEntry_isActive]: matches,
-            [style.menuListEntry_isParent]: isParent,
-          })}
-        >
-          <Link
-            className={style.menuListEntryLink}
-            href={href}
-            role="menuitem"
-            tabIndex={isDisabled ? -1 : 0}
             {...otherProps}
           />
         </li>)
@@ -113,34 +87,12 @@ export default function Header({
           isOpen={isMenuOpen}
         />
       </button>
-      <ul
+      <PageMenu
         aria-labelledby={hamburgerId}
-        aria-disabled={!isMenuOpen}
-        className={classnames(style.menu, {
-          [style.menu_isOpen]: isMenuOpen,
-        })}
         id={menuId}
-        role="menu"
-      >
-        <MenuListEntry
-          href="/"
-          key="/"
-        >
-          {intl.get('home')}
-        </MenuListEntry>
-        {isLoaded && rootPage.childPages.map((page) => {
-          const href = getPageHref(page)
-          return (
-            <MenuListEntry
-              href={href}
-              isDisabled={!isMenuOpen}
-              key={href}
-            >
-              {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
-            </MenuListEntry>
-          )
-        })}
-      </ul>
+        isOpen={isMenuOpen}
+        rootPage={rootPage}
+      />
       <nav
         aria-label={intl.get('mainNav')}
         className={style.mainNav}

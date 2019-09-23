@@ -1,0 +1,49 @@
+@import '../Section/variables.scss';
+@import '../../style/variables.scss';
+@import '../../style/mixins.scss';
+
+
+.menu {
+  background: #ffffff;
+  display: block;
+  flex-direction: column;
+  height: 0;
+  height: 100%;
+  left: -100%;
+  list-style: none;
+  margin: 0;
+  overflow: auto;
+  padding: 3em 0.25em 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  transition: left 0.5s ease-out;
+  width: 100%;
+  z-index: 2000;
+
+  &.menu_isOpen {
+    left: 0;
+    pointer-events: auto;
+  }
+}
+.menuListEntry {
+  display: flex;
+
+  &.menuListEntry_isActive {
+    color: $accentColor;
+    font-weight: 700;
+  }
+  &.menuListEntry_isParent {
+    font-weight: 700;
+  }
+}
+.menuListEntryLink {
+  @include resetLink;
+  padding: 0.5em;
+
+  &:hover,
+  &:focus {
+    color: $accentColor;
+    text-decoration: underline;
+  }
+}
