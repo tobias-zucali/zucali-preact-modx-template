@@ -16,6 +16,8 @@ export default function Hamburger({
       className={classnames(className, style.hamburger, {
         [style.hamburger_isOpen]: isOpen,
       })}
+      role="img"
+      aria-label=""
       {...otherProps}
     >
       <div className={style.hamburgerStrokeFirst} />

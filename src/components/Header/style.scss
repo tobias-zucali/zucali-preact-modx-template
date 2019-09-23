@@ -1,6 +1,15 @@
-@import '../../style/variables.scss';
 @import '../Section/variables.scss';
+@import '../../style/variables.scss';
+@import '../../style/mixins.scss';
 
+
+@mixin hoverStyles {
+  &:hover,
+  &:focus {
+    color: $accentColor;
+    text-decoration: underline;
+  }
+}
 
 .background {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
@@ -10,20 +19,6 @@
   right: 0;
   height: 8em;
   z-index: 10;
-}
-
-.header {
-  left: 0;
-  position: fixed;
-  text-align: center;
-  top: -3em;
-  transition: top 0.4s ease-in-out;
-  will-change: top;
-  z-index: 1000;
-
-  &.header_isVisible {
-    top: 0;
-  }
 }
 
 .heading {
@@ -42,100 +37,101 @@
     top: -5.5em;
   }
 }
+.headingLink {
+  @include resetLink;
+  @include hoverStyles;
+}
 .headingLogo {
   padding: 1rem 2rem 0 2rem;
   width: 100%
 }
 
-.hamburger {
-  display: block;
-  z-index: 200;
+.menuButton {
+  @include resetButton;
+  @include hoverStyles;
+  cursor: pointer;
+  left: 0;
+  padding: 0.5em;
   position: fixed;
-  left: 0.5em;
   top: 0;
+  z-index: 3000;
+}
+.mainNav {
+  display: none;
+  left: 2.75em;
+  position: fixed;
+  top: 0.5em;
+  z-index: 1000;
+
 
   @media (min-width: $breakpointSmall) {
-    display: none;
+    display: block;
   }
+}
+.navList {
+  @include resetList;
+  display: flex;
+  flex-direction: row;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.navListEntry {
+  @include hoverStyles;
+  display: flex;
+
+  &.navListEntry_isActive {
+    font-weight: 700;
+  }
+  &.navListEntry_isParent {
+  }
+}
+.navListEntryLink {
+  @include resetLink;
+  padding: 0.5em;
 }
 
 .menu {
+  background: #ffffff;
+  display: block;
+  flex-direction: column;
+  height: 0;
+  height: 100%;
+  left: -100%;
   list-style: none;
   margin: 0;
+  overflow: auto;
+  padding: 3em 0.25em 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  transition: left 0.5s ease-out;
+  width: 100%;
+  z-index: 2000;
 
-  @media (max-width: $breakpointSmall - 1) {
-    background: #ffffff;
-    display: block;
-    flex-direction: column;
-    height: 0;
-    height: 100%;
-    left: -100%;
-    padding: 2em 0.5em;
-    position: fixed;
-    top: 0;
-    transition: left 0.5s ease-out;
-    width: 100%;
-    z-index: 100;
-
-    &.menu_isOpen {
-      left: 0;
-    }
-  }
-
-  @media (min-width: $breakpointSmall) {
-    display: flex;
-    flex-direction: row;
+  &.menu_isOpen {
     left: 0;
-    padding: 0 0.5em;
-    position: absolute;
-    right: 0;
-    top: 0;
+    pointer-events: auto;
   }
 }
-.menuEntry {
+.menuListEntry {
   display: flex;
-  &.menuEntry_isActive {
+
+  &.menuListEntry_isActive {
     color: $accentColor;
     font-weight: 700;
   }
-  &.menuEntry_isParent {
+  &.menuListEntry_isParent {
     font-weight: 700;
   }
 }
-.menuEntryLink,
-.headingLink {
-  color: inherit;
-  text-decoration: none;
+.menuListEntryLink {
+  @include resetLink;
+  padding: 0.5em;
 
   &:hover,
   &:focus {
     color: $accentColor;
     text-decoration: underline;
-  }
-}
-.menuEntryLink {
-  padding: 0.5em;
-}
-
-.homeLink {
-  color: inherit;
-  display: inline-block;
-}
-.homeLogo {
-  display: none;
-  height: 2em;
-  padding: 0.5em;
-  width: 3em;
-
-  @media (min-width: $breakpointSmall) {
-    display: block;
-  }
-}
-.homeText {
-  display: block;
-  padding: 0.5em;
-
-  @media (min-width: $breakpointSmall) {
-    display: none;
   }
 }

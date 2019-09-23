@@ -17,7 +17,7 @@ import Logo from '../Logo'
 import style from './style.scss'
 
 
-const MenuListEntry = ({
+const NavListEntry = ({
   className,
   href,
   ...otherProps
@@ -27,14 +27,41 @@ const MenuListEntry = ({
       const isParent = !matches && path.startsWith(href)
       return (
         <li
-          className={classnames(className, style.menuEntry, {
-            [style.menuEntry_isActive]: matches,
-            [style.menuEntry_isParent]: isParent,
+          className={classnames(className, style.navListEntry, {
+            [style.navListEntry_isActive]: matches,
+            [style.navListEntry_isParent]: isParent,
           })}
         >
           <Link
-            className={style.menuEntryLink}
+            className={style.navListEntryLink}
             href={href}
+            {...otherProps}
+          />
+        </li>)
+    }}
+  </Match>
+)
+const MenuListEntry = ({
+  className,
+  href,
+  isDisabled,
+  ...otherProps
+}) => (
+  <Match path={href}>
+    {({ matches, path, url }) => {
+      const isParent = !matches && path.startsWith(href)
+      return (
+        <li
+          className={classnames(className, style.menuListEntry, {
+            [style.menuListEntry_isActive]: matches,
+            [style.menuListEntry_isParent]: isParent,
+          })}
+        >
+          <Link
+            className={style.menuListEntryLink}
+            href={href}
+            role="menuitem"
+            tabIndex={isDisabled ? -1 : 0}
             {...otherProps}
           />
         </li>)
@@ -50,6 +77,7 @@ export default function Header({
   const hamburgerId = useId()
   const isScrolledToTop = useIsScrolledToTop()
   const [isMenuOpen, setMenuOpen] = useState(false)
+  // const [isMenuOpen, setMenuOpen] = useState(true)
 
   const isLoaded = rootPage && rootPage.childPages
 
@@ -71,50 +99,67 @@ export default function Header({
           />
         </Link>
       </h1>
-      <nav
-        aria-label={intl.get('mainNav')}
-        className={classnames(style.header, {
-          [style.header_isVisible]: isLoaded,
-          [style.header_isMenuOpen]: isMenuOpen,
-        })}
+      <button
+        className={style.menuButton}
+        aria-controls={menuId}
+        aria-expanded={isMenuOpen}
+        aria-haspopup="true"
+        id={hamburgerId}
+        onClick={() => setMenuOpen(!isMenuOpen)}
       >
         <Hamburger
-          aria-controls={menuId}
-          aria-expanded={isMenuOpen}
-          aria-haspopup="true"
           aria-label={intl.get('menu')}
           className={style.hamburger}
-          id={hamburgerId}
           isOpen={isMenuOpen}
-          onClick={() => setMenuOpen(!isMenuOpen)}
-          role="button"
         />
-        <ul
-          aria-labelledby={hamburgerId}
-          className={classnames(style.menu, {
-            [style.menu_isOpen]: isMenuOpen,
-          })}
-          id={menuId}
-          role="menu"
+      </button>
+      <ul
+        aria-labelledby={hamburgerId}
+        aria-disabled={!isMenuOpen}
+        className={classnames(style.menu, {
+          [style.menu_isOpen]: isMenuOpen,
+        })}
+        id={menuId}
+        role="menu"
+      >
+        <MenuListEntry
+          href="/"
+          key="/"
         >
-          <MenuListEntry
-            href="/"
-            key="/"
-          >
-            {intl.get('home')}
-          </MenuListEntry>
+          {intl.get('home')}
+        </MenuListEntry>
+        {isLoaded && rootPage.childPages.map((page) => {
+          const href = getPageHref(page)
+          return (
+            <MenuListEntry
+              href={href}
+              isDisabled={!isMenuOpen}
+              key={href}
+            >
+              {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
+            </MenuListEntry>
+          )
+        })}
+      </ul>
+      <nav
+        aria-label={intl.get('mainNav')}
+        className={style.mainNav}
+      >
+        <ul
+          className={style.navList}
+        >
           {isLoaded && filterPages(
             rootPage.childPages,
             { hidemenu: false }
           ).map((page) => {
             const href = getPageHref(page)
             return (
-              <MenuListEntry
+              <NavListEntry
                 href={href}
                 key={href}
               >
                 {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
-              </MenuListEntry>
+              </NavListEntry>
             )
           })}
         </ul>
