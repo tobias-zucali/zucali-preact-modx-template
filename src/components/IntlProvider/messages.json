@@ -1,92 +1,83 @@
 {
   "home": {
     "de": "Startseite",
-    "en": "Home",
-    "es": "Página inicial"
+    "en": "Home"
   },
   "pageTitle": {
     "de": "Zucali Gitarren",
-    "en": "Zucali Guitars",
-    "es": "Zucali Guitarras"
+    "en": "Zucali Guitars"
   },
+  "mainNav": {
+    "de": "Hauptnavigation",
+    "en": "Main navigation"
+  },
+  "menu": {
+    "de": "Menü",
+    "en": "Menu"
+  },
+
   "languages": {
     "de": "Deutsch",
-    "en": "English",
-    "es": "Español"
+    "en": "English"
   },
   "langCode": {
     "de": "de_AT",
-    "en": "en_US",
-    "es": "es_ES"
+    "en": "en_US"
   },
   "switchLanguage": {
     "de": "Zur deutschen Version wechseln",
-    "en": "Switch to English version",
-    "es": "Cambiar a la versión española"
+    "en": "Switch to English version"
   },
   "maker": {
     "de": "Hersteller",
-    "en": "Luthier",
-    "es": "Luthier"
+    "en": "Luthier"
   },
   "model": {
     "de": "Modell",
-    "en": "Model",
-    "es": "Modelo"
+    "en": "Model"
   },
   "cover": {
     "de": "Decke",
-    "en": "Soundboard",
-    "es": "Tapa"
+    "en": "Soundboard"
   },
   "base": {
     "de": "Boden und Zarge",
-    "en": "Back",
-    "es": "Fondo"
+    "en": "Back"
   },
   "shape": {
     "de": "Umrissform",
-    "en": "Shape",
-    "es": "Plantilla"
+    "en": "Shape"
   },
   "finish": {
     "de": "Lackierung",
-    "en": "Lacquer",
-    "es": "Barnizado"
+    "en": "Lacquer"
   },
   "machineHeads": {
     "de": "Mechanik",
-    "en": "Tuners",
-    "es": "Afinadores"
+    "en": "Tuners"
   },
   "year": {
     "de": "Baujahr",
-    "en": "year of conuction",
-    "es": "año de conucción"
+    "en": "year of conuction"
   },
   "scale": {
     "de": "Mensur",
-    "en": "Scale",
-    "es": "Scala"
+    "en": "Scale"
   },
   "width": {
     "de": "Halsbreite (Sattel / 12. Bund)",
-    "en": "Neck (nut, 12th fret)",
-    "es": "Mastil (hueso, traste 12)"
+    "en": "Neck (nut, 12th fret)"
   },
   "count": {
     "de": "Saitenanzahl",
-    "en": "Number of ings",
-    "es": "Número de cuerdas"
+    "en": "Number of ings"
   },
   "tuning": {
     "de": "Stimmung",
-    "en": "Tuning",
-    "es": "Afinación"
+    "en": "Tuning"
   },
   "category": {
     "de": "Kategorien",
-    "en": "Category",
-    "es": "Categoría"
+    "en": "Category"
   }
 }

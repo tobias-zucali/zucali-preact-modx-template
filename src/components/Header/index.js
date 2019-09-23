@@ -30,13 +30,18 @@ export default function Header({
   return (
     <header>
       <div className={style.background} />
+
+      <h1 className={classnames(style.heading, {
+        [style.heading_isHidden]: !isScrolledToTop,
+      })} >
       <Logo
-        className={classnames(style.sideLogo, {
-          [style.sideLogo_isHidden]: !isScrolledToTop,
-        })}
+          aria-label={intl.get('pageTitle')}
+          className={style.headingLogo}
         small={false}
       />
+      </h1>
       <nav
+        aria-label={intl.get('mainNav')}
         className={classnames(style.header, {
           [style.header_isVisible]: isLoaded,
           [style.header_isMenuOpen]: isMenuOpen,
@@ -46,7 +51,7 @@ export default function Header({
           aria-controls={menuId}
           aria-expanded={isMenuOpen}
           aria-haspopup="true"
-          aria-label="Menu" // TODO: use Intl
+          aria-label={intl.get('menu')}
           className={style.hamburger}
           id={hamburgerId}
           isOpen={isMenuOpen}
@@ -68,11 +73,8 @@ export default function Header({
               className={classnames(style.homeLink)}
               href="/"
             >
-              <h1
-                className={style.homeHeading}
-              >
                 <Logo
-                  aria-label="Home" // TODO: use Intl
+                aria-label={intl.get('home')}
                   className={style.homeLogo}
                   small={true}
                 />
@@ -81,7 +83,6 @@ export default function Header({
                 >
                   Home
                 </span>
-              </h1>
             </Link>
           </li>
           {isLoaded && filterPages(

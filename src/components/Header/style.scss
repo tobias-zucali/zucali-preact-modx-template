@@ -26,8 +26,11 @@
   }
 }
 
-.sideLogo {
-  padding: 1rem 2rem 0 2rem;
+.heading {
+  display: inline-block;
+  font-size: inherit;
+  height: 100%;
+  margin: 0;
   position: fixed;
   right: 0;
   top: 0;
@@ -35,9 +38,13 @@
   width: $sidebarWidth;
   z-index: 1000;
 
-  &.sideLogo_isHidden {
+  &.heading_isHidden {
     top: -5.5em;
   }
+}
+.headingLogo {
+  padding: 1rem 2rem 0 2rem;
+  width: 100%
 }
 
 .hamburger {
@@ -97,14 +104,6 @@
 .homeLink {
   color: inherit;
   display: inline-block;
-}
-.homeHeading {
-  display: inline-block;
-  font-size: inherit;
-  height: 100%;
-  margin: 0;
-  font-family: inherit;
-  font-weight: inherit;
 }
 .homeLogo {
   display: none;
