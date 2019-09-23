@@ -21,7 +21,9 @@ $PAGES_TO_EXCLUDE = [
 
 if(!function_exists(getChunk)) {
   function getChunk($modx, $html, array $properties = array()) {
-	  return $modx->newObject('modChunk')->process($properties, $html);
+    $chunk = $modx->newObject('modChunk');
+    $chunk->setCacheable(false);
+	  return $chunk->process($properties, $html);
   }
 }
 
@@ -52,36 +54,36 @@ foreach ($resources as $resource) {
 
   // prevent recursion
   if (!in_array($objectArray['id'], $PAGES_TO_EXCLUDE)) {
-	$templateVarCollection = $resource->getTemplateVarCollection($resource);
-	foreach ($templateVarCollection as $templateVar) {
-	  $objectArray[$templateVar->name] = $templateVar->value;
-	}
+    $templateVarCollection = $resource->getTemplateVarCollection($resource);
+    foreach ($templateVarCollection as $templateVar) {
+      $objectArray[$templateVar->name] = $templateVar->value;
+    }
 
-	foreach ($fieldsToEvaluate as $field) {
-	  $objectArray[$field] = $evaluatedField = getChunk($modx, $objectArray[$field], array(
-		"resource" => $objectArray['id'],
-	  ));
-	}
+    foreach ($fieldsToEvaluate as $field) {
+      $objectArray[$field] = getChunk($modx, $objectArray[$field], array(
+        "resource" => $objectArray['id'],
+      ));
+    }
 
-/*
-	if ($objectArray['id'] === 23) {
-//	  $brokenSnippet = substr($objectArray['content'], 1430, 4);
-	  $brokenSnippet = $objectArray['content'];
+  /*
+    if ($objectArray['id'] === 23) {
+  //	  $brokenSnippet = substr($objectArray['content'], 1430, 4);
+      $brokenSnippet = $objectArray['content'];
 
-	  $objectArray = [
-		  content => $brokenSnippet,
-	  ];
+      $objectArray = [
+        content => $brokenSnippet,
+      ];
 
-	  return json_encode(
-		[$brokenSnippet],
-		JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-	  );
-	}
-*/
-	array_push(
-	  $preparedResources,
-	  array_map(cleanString, $objectArray)
-	);
+      return json_encode(
+      [$brokenSnippet],
+      JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+      );
+    }
+  */
+    array_push(
+      $preparedResources,
+      array_map(cleanString, $objectArray)
+    );
   }
 }
 
