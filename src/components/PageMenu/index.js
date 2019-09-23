@@ -13,53 +13,74 @@ import style from './style.scss'
 
 const MenuList = ({
   children,
+  className,
+  filters,
   parent,
   isDisabled,
+  isRecursive,
   ...otherProps
 }) => {
   const intl = useIntl()
-  return (
+
+  const listItems = filterPages(parent.childPages, filters).map((childPage) => {
+    const href = getPageHref(childPage)
+    return (
+      <MenuListPageEntry
+        href={href}
+        isDisabled={isDisabled}
+        isRecursive={isRecursive}
+        key={href}
+        page={childPage}
+      >
+        {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
+      </MenuListPageEntry>
+    )
+  })
+
+  return listItems.length > 0 || children ? (
     <ul
-      className={style.menuList}
+      className={classnames(className, style.menuList)}
       {...otherProps}
     >
       {children}
-      <MenuListItems
-        filters={{
-          hasChildren: true,
-          hidemenu: false,
-        }}
-        isDisabled={isDisabled}
-        parent={parent}
-      />
+      {listItems}
     </ul>
-  )
+  ) : null
 }
 
-const MenuListItems = ({
-  filters,
+const MenuListPageEntry = ({
+  children,
+  page,
+  href,
   isDisabled,
-  parent,
-}) => {
-  const intl = useIntl()
-  return filterPages(parent.childPages, filters).map((childPage) => {
-    const href = getPageHref(childPage)
-    return (
-      <MenuListEntry
-        href={href}
+  isRecursive,
+  filters,
+  ...otherProps
+}) => (
+  <MenuListEntry
+    href={href}
+    isDisabled={isDisabled}
+    nestedMenu={isRecursive && (
+      <MenuList
+        filters={filters}
+        parent={page}
         isDisabled={isDisabled}
-        key={href}
-      >
-        {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
-      </MenuListEntry>
-    )
-  })
-}
+        isRecursive={isRecursive}
+      />
+    )}
+    {...otherProps}
+  >
+    {children}
+  </MenuListEntry>
+)
 
 const MenuListEntry = ({
+  children,
   className,
   href,
   isDisabled,
+  isRecursive,
+  nestedMenu,
   ...otherProps
 }) => (
   <Match path={href}>
@@ -67,19 +88,22 @@ const MenuListEntry = ({
       const isParent = !matches && path.startsWith(href)
       return (
         <li
-          className={classnames(className, style.menuListEntry, {
-            [style.menuListEntry_isActive]: matches,
-            [style.menuListEntry_isParent]: isParent,
-          })}
+          className={classnames(className, style.menuListEntry)}
+          {...otherProps}
         >
           <Link
-            className={style.menuListEntryLink}
+            className={classnames(style.menuListEntryLink, {
+              [style.menuListEntryLink_isActive]: matches,
+              [style.menuListEntryLink_isParent]: isParent,
+            })}
             href={href}
             role="menuitem"
             tabIndex={isDisabled ? -1 : 0}
             onClick={() => console.log('TODO: close menu')}
-            {...otherProps}
-          />
+          >
+            {children}
+          </Link>
+          {nestedMenu}
         </li>)
     }}
   </Match>
@@ -106,21 +130,26 @@ export default function PageMenu({
       {...otherProps}
     >
       <MenuList
-        parent={rootPage}
+        className={style.menuList_paddingBottom}
+        filters={{
+          hasChildren: false,
+        }}
         isDisabled={!isOpen}
+        isRecursive={true}
+        parent={rootPage}
       >
         <MenuListEntry href="/">
           {intl.get('home')}
         </MenuListEntry>
-        <MenuListItems
-          filters={{
-            hasChildren: false,
-          }}
-          isDisabled={!isOpen}
-          parent={rootPage}
-        />
-        <hr />
       </MenuList>
+      <MenuList
+        filters={{
+          hasChildren: true,
+        }}
+        isDisabled={!isOpen}
+        isRecursive={true}
+        parent={rootPage}
+      />
     </div>
   ) : null
 }

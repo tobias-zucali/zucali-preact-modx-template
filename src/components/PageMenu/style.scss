@@ -11,7 +11,7 @@
   height: 100%;
   left: -100%;
   overflow: auto;
-  padding: 3em 0.25em 0;
+  padding: 3em 0.25em;
   pointer-events: none;
   position: fixed;
   top: 0;
@@ -26,17 +26,19 @@
 }
 .menuList {
   @include resetList;
+
+  & .menuList {
+    border-left: solid;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+  }
+  &.menuList_paddingBottom {
+    padding-bottom: 2em;
+  }
 }
 .menuListEntry {
   display: flex;
-
-  &.menuListEntry_isActive {
-    color: $accentColor;
-    font-weight: 700;
-  }
-  &.menuListEntry_isParent {
-    font-weight: 700;
-  }
+  flex-direction: column;
 }
 .menuListEntryLink {
   @include resetLink;
@@ -46,5 +48,12 @@
   &:focus {
     color: $accentColor;
     text-decoration: underline;
+  }
+  &.menuListEntryLink_isActive {
+    color: $accentColor;
+    font-weight: 700;
+  }
+  &.menuListEntryLink_isParent {
+    font-weight: 700;
   }
 }

@@ -50,8 +50,8 @@ export default function Header({
   const menuId = useId()
   const hamburgerId = useId()
   const isScrolledToTop = useIsScrolledToTop()
-  const [isMenuOpen, setMenuOpen] = useState(false)
-  // const [isMenuOpen, setMenuOpen] = useState(true)
+  // const [isMenuOpen, setMenuOpen] = useState(false)
+  const [isMenuOpen, setMenuOpen] = useState(true)
 
   const isLoaded = rootPage && rootPage.childPages
 
