@@ -10,8 +10,6 @@
   height: 0;
   height: 100%;
   left: -100%;
-  list-style: none;
-  margin: 0;
   overflow: auto;
   padding: 3em 0.25em 0;
   pointer-events: none;
@@ -25,6 +23,9 @@
     left: 0;
     pointer-events: auto;
   }
+}
+.menuList {
+  @include resetList;
 }
 .menuListEntry {
   display: flex;

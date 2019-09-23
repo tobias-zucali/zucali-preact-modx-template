@@ -22,6 +22,7 @@ export default function Section({
   return (
     <div
       className={style.section}
+      id={data.alias}
       ref={sectionRef}
     >
       <div className={style.foreground}>
@@ -42,7 +43,6 @@ export default function Section({
             )}
           </blockquote>
         )}
-
         <h2>{intl.getTranslatedAttribute(data, 'pagetitle')}</h2>
         <div
           className={style.content}

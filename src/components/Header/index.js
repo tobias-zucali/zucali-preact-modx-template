@@ -100,10 +100,10 @@ export default function Header({
         <ul
           className={style.navList}
         >
-          {isLoaded && filterPages(
-            rootPage.childPages,
-            { hidemenu: false }
-          ).map((page) => {
+          {isLoaded && filterPages(rootPage.childPages, {
+            hasChildren: true,
+            hidemenu: false,
+          }).map((page) => {
             const href = getPageHref(page)
             return (
               <NavListEntry

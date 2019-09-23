@@ -1,21 +1,60 @@
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
 import { Link } from 'preact-router'
 import Match from 'preact-router/match'
 import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
-import useId from '../../hooks/useId'
-import useIsScrolledToTop from '../../hooks/useIsScrolledToTop'
 
 import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
 
-import Hamburger from '../Hamburger'
-import Logo from '../Logo'
-
 import style from './style.scss'
 
+
+const MenuList = ({
+  children,
+  parent,
+  isDisabled,
+  ...otherProps
+}) => {
+  const intl = useIntl()
+  return (
+    <ul
+      className={style.menuList}
+      {...otherProps}
+    >
+      {children}
+      <MenuListItems
+        filters={{
+          hasChildren: true,
+          hidemenu: false,
+        }}
+        isDisabled={isDisabled}
+        parent={parent}
+      />
+    </ul>
+  )
+}
+
+const MenuListItems = ({
+  filters,
+  isDisabled,
+  parent,
+}) => {
+  const intl = useIntl()
+  return filterPages(parent.childPages, filters).map((childPage) => {
+    const href = getPageHref(childPage)
+    return (
+      <MenuListEntry
+        href={href}
+        isDisabled={isDisabled}
+        key={href}
+      >
+        {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
+      </MenuListEntry>
+    )
+  })
+}
 
 const MenuListEntry = ({
   className,
@@ -38,6 +77,7 @@ const MenuListEntry = ({
             href={href}
             role="menuitem"
             tabIndex={isDisabled ? -1 : 0}
+            onClick={() => console.log('TODO: close menu')}
             {...otherProps}
           />
         </li>)
@@ -55,8 +95,8 @@ export default function PageMenu({
 
   const isLoaded = rootPage && rootPage.childPages
 
-  return (
-    <ul
+  return isLoaded ? (
+    <div
       aria-disabled={!isOpen}
       className={classnames(style.menu, {
         [style.menu_isOpen]: isOpen,
@@ -65,24 +105,22 @@ export default function PageMenu({
       role="menu"
       {...otherProps}
     >
-      <MenuListEntry
-        href="/"
-        key="/"
+      <MenuList
+        parent={rootPage}
+        isDisabled={!isOpen}
       >
-        {intl.get('home')}
-      </MenuListEntry>
-      {isLoaded && rootPage.childPages.map((page) => {
-        const href = getPageHref(page)
-        return (
-          <MenuListEntry
-            href={href}
-            isDisabled={!isOpen}
-            key={href}
-          >
-            {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
-          </MenuListEntry>
-        )
-      })}
-    </ul>
-  )
+        <MenuListEntry href="/">
+          {intl.get('home')}
+        </MenuListEntry>
+        <MenuListItems
+          filters={{
+            hasChildren: false,
+          }}
+          isDisabled={!isOpen}
+          parent={rootPage}
+        />
+        <hr />
+      </MenuList>
+    </div>
+  ) : null
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks'
 
-import { Host, ROOT_ID } from '../../constants'
+import { Host, ROOT_ID, INSTRUMENTS_ID } from '../../constants'
 
 
 const IS_BROWSER = (typeof window !== 'undefined')
@@ -36,7 +36,8 @@ const prepareResources = (resources) => {
     id,
     parent,
   }) => {
-    if (deleted) {
+    // TODO: fix nesting of instruments
+    if (deleted || id === INSTRUMENTS_ID) {
       return acc
     }
     return {

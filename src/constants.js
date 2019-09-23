@@ -1,4 +1,5 @@
 export const ROOT_ID = 1
+export const INSTRUMENTS_ID = 32
 
 export const Host = {
   BASE: 'https://guitars.zucali.com',
