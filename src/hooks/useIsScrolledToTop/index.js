@@ -1,4 +1,4 @@
-import { useRef, useState } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 
 import useOnScroll, { getCallbackArgs } from '../useOnScroll'
 

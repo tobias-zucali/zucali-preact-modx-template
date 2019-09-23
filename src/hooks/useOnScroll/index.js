@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'preact/hooks'
-import debounce from 'lodash/debounce'
+import { useEffect } from 'preact/hooks'
 
 
 const IS_BROWSER = (typeof window !== 'undefined')
@@ -14,12 +13,22 @@ export const getCallbackArgs = () => ({
 
 let callbacks = []
 if (IS_BROWSER) {
-  window.addEventListener('scroll', async () => {
-    const args = getCallbackArgs()
-    callbacks.forEach((callback) => {
-      callback(args)
+  let isFrameRequested = false
+  const requestFrame = () => {
+    window.requestAnimationFrame(() => {
+      const args = getCallbackArgs()
+      callbacks.forEach((callback) => {
+        callback(args)
+      })
+      isFrameRequested = false
     })
-  })
+    isFrameRequested = true
+  }
+
+  window.addEventListener(
+    'scroll',
+    () => !isFrameRequested && requestFrame()
+  )
 }
 
 export default function useOnScroll(callback) {
