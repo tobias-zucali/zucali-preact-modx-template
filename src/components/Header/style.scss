@@ -37,16 +37,6 @@
   width: 100%
 }
 
-.menuButton {
-  @include resetButton;
-  @include menuHover;
-  cursor: pointer;
-  left: 0;
-  padding: 0.5em;
-  position: fixed;
-  top: 0;
-  z-index: 3000;
-}
 .mainNav {
   display: none;
   left: 2.75em;

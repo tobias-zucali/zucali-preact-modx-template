@@ -3,6 +3,17 @@
 @import '../../style/mixins.scss';
 
 
+.menuButton {
+  @include resetButton;
+  @include menuHover;
+  cursor: pointer;
+  left: 0;
+  padding: 0.5em;
+  position: fixed;
+  top: 0;
+  z-index: 3000;
+}
+
 .menu {
   background: #ffffff;
   display: block;
@@ -42,18 +53,13 @@
 }
 .menuListEntryLink {
   @include resetLink;
+  @include menuHover;
   padding: 0.5em;
 
-  &:hover,
-  &:focus {
-    color: $accentColor;
-    text-decoration: underline;
-  }
   &.menuListEntryLink_isActive {
     color: $accentColor;
     font-weight: 700;
   }
   &.menuListEntryLink_isParent {
-    font-weight: 700;
   }
 }

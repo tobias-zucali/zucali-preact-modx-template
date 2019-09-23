@@ -1,9 +1,13 @@
 import { h } from 'preact'
+import { useState } from 'preact/hooks'
 import { Link } from 'preact-router'
 import Match from 'preact-router/match'
 import classnames from 'classnames'
 
+import Hamburger from '../Hamburger'
+
 import useIntl from '../../hooks/useIntl'
+import useId from '../../hooks/useId'
 
 import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
@@ -15,9 +19,10 @@ const MenuList = ({
   children,
   className,
   filters,
-  parent,
   isDisabled,
   isRecursive,
+  onClick,
+  parent,
   ...otherProps
 }) => {
   const intl = useIntl()
@@ -30,6 +35,7 @@ const MenuList = ({
         isDisabled={isDisabled}
         isRecursive={isRecursive}
         key={href}
+        onClick={onClick}
         page={childPage}
       >
         {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
@@ -50,11 +56,12 @@ const MenuList = ({
 
 const MenuListPageEntry = ({
   children,
-  page,
+  filters,
   href,
   isDisabled,
   isRecursive,
-  filters,
+  onClick,
+  page,
   ...otherProps
 }) => (
   <MenuListEntry
@@ -63,11 +70,13 @@ const MenuListPageEntry = ({
     nestedMenu={isRecursive && (
       <MenuList
         filters={filters}
-        parent={page}
         isDisabled={isDisabled}
         isRecursive={isRecursive}
+        onClick={onClick}
+        parent={page}
       />
     )}
+    onClick={onClick}
     {...otherProps}
   >
     {children}
@@ -81,6 +90,7 @@ const MenuListEntry = ({
   isDisabled,
   isRecursive,
   nestedMenu,
+  onClick,
   ...otherProps
 }) => (
   <Match path={href}>
@@ -97,9 +107,9 @@ const MenuListEntry = ({
               [style.menuListEntryLink_isParent]: isParent,
             })}
             href={href}
+            onClick={onClick}
             role="menuitem"
             tabIndex={isDisabled ? -1 : 0}
-            onClick={() => console.log('TODO: close menu')}
           >
             {children}
           </Link>
@@ -110,46 +120,77 @@ const MenuListEntry = ({
 )
 
 export default function PageMenu({
-  id,
-  isOpen,
   rootPage,
-  ...otherProps
 }) {
   const intl = useIntl()
+  const [isMenuOpen, setMenuOpen] = useState(false)
+  const menuId = useId()
+  const hamburgerId = useId()
 
   const isLoaded = rootPage && rootPage.childPages
+  const handleClick = () => setMenuOpen(false)
 
-  return isLoaded ? (
-    <div
-      aria-disabled={!isOpen}
-      className={classnames(style.menu, {
-        [style.menu_isOpen]: isOpen,
-      })}
-      id={id}
-      role="menu"
-      {...otherProps}
+  return [
+    <button
+      className={style.menuButton}
+      aria-controls={menuId}
+      aria-expanded={isMenuOpen}
+      aria-haspopup="true"
+      id={hamburgerId}
+      key="button"
+      onClick={() => setMenuOpen(!isMenuOpen)}
     >
-      <MenuList
-        className={style.menuList_paddingBottom}
-        filters={{
-          hasChildren: false,
-        }}
-        isDisabled={!isOpen}
-        isRecursive={true}
-        parent={rootPage}
-      >
-        <MenuListEntry href="/">
-          {intl.get('home')}
-        </MenuListEntry>
-      </MenuList>
-      <MenuList
-        filters={{
-          hasChildren: true,
-        }}
-        isDisabled={!isOpen}
-        isRecursive={true}
-        parent={rootPage}
+      <Hamburger
+        aria-label={intl.get('menu')}
+        className={style.hamburger}
+        isOpen={isMenuOpen}
       />
-    </div>
-  ) : null
+    </button>,
+    isLoaded ? (
+      <div
+        aria-disabled={!isMenuOpen}
+        aria-labelledby={hamburgerId}
+        className={classnames(style.menu, {
+          [style.menu_isOpen]: isMenuOpen,
+        })}
+        id={menuId}
+        isMenuOpen={isMenuOpen}
+        key="menu"
+        role="menu"
+      >
+        <MenuList
+          className={style.menuList_paddingBottom}
+          filters={{
+            hasChildren: false,
+          }}
+          isDisabled={!isMenuOpen}
+          isRecursive={true}
+          onClick={handleClick}
+          parent={rootPage}
+        >
+          <MenuListEntry
+            href="/"
+            onClick={handleClick}
+          >
+            TODO: switch language
+          </MenuListEntry>
+          <MenuListEntry
+            href="/"
+            onClick={handleClick}
+          >
+            {intl.get('home')}
+          </MenuListEntry>
+        </MenuList>
+        <MenuList
+          filters={{
+            hasChildren: true,
+          }}
+          isDisabled={!isMenuOpen}
+          isRecursive={true}
+          onClick={handleClick}
+          parent={rootPage}
+        />
+      </div>
+    ) : null,
+  ]
 }

@@ -1,17 +1,14 @@
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
 import { Link } from 'preact-router'
 import Match from 'preact-router/match'
 import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
-import useId from '../../hooks/useId'
 import useIsScrolledToTop from '../../hooks/useIsScrolledToTop'
 
 import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
 
-import Hamburger from '../Hamburger'
 import Logo from '../Logo'
 import PageMenu from '../PageMenu'
 
@@ -47,11 +44,7 @@ export default function Header({
   rootPage,
 }) {
   const intl = useIntl()
-  const menuId = useId()
-  const hamburgerId = useId()
   const isScrolledToTop = useIsScrolledToTop()
-  // const [isMenuOpen, setMenuOpen] = useState(false)
-  const [isMenuOpen, setMenuOpen] = useState(true)
 
   const isLoaded = rootPage && rootPage.childPages
 
@@ -73,24 +66,7 @@ export default function Header({
           />
         </Link>
       </h1>
-      <button
-        className={style.menuButton}
-        aria-controls={menuId}
-        aria-expanded={isMenuOpen}
-        aria-haspopup="true"
-        id={hamburgerId}
-        onClick={() => setMenuOpen(!isMenuOpen)}
-      >
-        <Hamburger
-          aria-label={intl.get('menu')}
-          className={style.hamburger}
-          isOpen={isMenuOpen}
-        />
-      </button>
       <PageMenu
-        aria-labelledby={hamburgerId}
-        id={menuId}
-        isOpen={isMenuOpen}
         rootPage={rootPage}
       />
       <nav
