@@ -158,6 +158,7 @@ export default function PageMenu({
         key="menu"
         role="menu"
       >
+        <div className={style.menuTopOverlay} />
         <MenuList
           className={style.menuList_paddingBottom}
           filters={{
