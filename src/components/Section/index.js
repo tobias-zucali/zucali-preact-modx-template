@@ -10,7 +10,6 @@ import style from './style.scss'
 export default function Section({
   data,
 }) {
-  // console.log({ data })
   const intl = useIntl()
   const {
     url,
@@ -18,6 +17,11 @@ export default function Section({
     parallaxScale,
     sectionRef,
   } = useSectionBackground(data.cover)
+
+  const quote = intl.getTranslatedAttribute(data, 'quote')
+  const quoteAuthor = intl.getTranslatedAttribute(data, 'quoteAuthor')
+  const pagetitle = intl.getTranslatedAttribute(data, 'pagetitle')
+  const content = intl.getTranslatedAttribute(data, 'content')
 
   return (
     <div
@@ -33,20 +37,20 @@ export default function Section({
               bottom: `${parallaxScale * 600 - 100}px`,
             }}
           >
-            {data.quote}
-            {data.quoteAuthor && (
+            {quote}
+            {quoteAuthor && (
               <cite
                 className={classnames('regular', style.quoteAuthor)}
               >
-                {data.quoteAuthor}
+                {quoteAuthor}
               </cite>
             )}
           </blockquote>
         )}
-        <h2>{intl.getTranslatedAttribute(data, 'pagetitle')}</h2>
+        <h2>{pagetitle}</h2>
         <div
           className={style.content}
-          dangerouslySetInnerHTML={{ __html: intl.getTranslatedAttribute(data, 'content') }}
+          dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
       <div className={style.background}>
