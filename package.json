@@ -5,13 +5,13 @@
   "license": "MIT",
   "scripts": {
     "build": "run-s lint test build:preact build:fix-structure",
-    "build:preact": "preact build --no-sw --template ../../../../../src/index.html",
+    "build:preact": "cross-env NODE_ENV=production preact build --no-sw --template ../../../../../src/index.html",
     "build:fix-structure": "./fix-build-structure.sh",
     "deploy": "run-s build deploy:copy",
     "deploy:copy": "./deploy-to-server.sh",
     "serve": "run-s build serve:http",
     "serve:http": "http-server ./build",
-    "dev": "preact watch --no-sw --template ../../../../../src/index.html",
+    "dev": "cross-env NODE_ENV=development preact watch --no-sw --template ../../../../../src/index.html",
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "eslint --ignore-path .gitignore --fix .",
     "test": "jest",
@@ -23,6 +23,7 @@
   ],
   "devDependencies": {
     "babel-plugin-transform-async-functions": "^6.22.0",
+    "cross-env": "^6.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-synacor": "^3.0.5",
