@@ -87,7 +87,7 @@ const preloadedResults = (IS_BROWSER && window.ZUCALI_RESOURCES)
   ? prepareResources(window.ZUCALI_RESOURCES)
   : undefined
 
-export default function useResources() {
+export default function useRootPage() {
   const [pageStructure, setPageStructure] = useState(preloadedResults)
 
   useEffect(async () => {

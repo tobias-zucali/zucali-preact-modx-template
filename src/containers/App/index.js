@@ -1,10 +1,11 @@
 import { h } from 'preact'
 import { route, Router } from 'preact-router'
 
-import useResources from '../../hooks/useResources'
+import useRootPage from '../../hooks/useRootPage'
 
 import Todo from '../Todo'
 import Home from '../Home'
+import PageProvider from '../PageProvider'
 
 import TransitionDisabler from '../../components/TransitionDisabler'
 import IntlProvider from '../../components/IntlProvider'
@@ -20,35 +21,37 @@ const redirectHtmlUrls = ({ url }) => {
 }
 
 export default function App() {
-  const rootPage = useResources()
+  const rootPage = useRootPage()
 
   return (
     <TransitionDisabler>
       <IntlProvider
         locale="en"
       >
-        <Header
-          rootPage={rootPage}
-        />
-        {rootPage ? (
-          <Router
-            key="router"
-            onChange={redirectHtmlUrls}
-          >
-            {rootPage.childPages.map((page) => (
-              <Todo
-                key={page.href}
-                page={page}
-                rootPage={rootPage}
-                path={page.href}
+        <PageProvider>
+          <Header
+            rootPage={rootPage}
+          />
+          {rootPage ? (
+            <Router
+              key="router"
+              onChange={redirectHtmlUrls}
+            >
+              {rootPage.childPages.map((page) => (
+                <Todo
+                  key={page.href}
+                  page={page}
+                  rootPage={rootPage}
+                  path={page.href}
+                />
+              ))}
+              <Home
+                default
+                page={rootPage}
               />
-            ))}
-            <Home
-              default
-              page={rootPage}
-            />
-          </Router>
-        ) : 'loading'}
+            </Router>
+          ) : 'loading'}
+        </PageProvider>
       </IntlProvider>
     </TransitionDisabler>
   )

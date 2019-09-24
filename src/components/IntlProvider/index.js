@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import { useMemo } from 'preact/hooks'
 
-import Intl from './context'
+import IntlContext from './context'
 import messages from './messages.json'
 import getIntl from './getIntl'
 
@@ -15,10 +15,10 @@ export default function IntlProvider({
     [locale]
   )
   return (
-    <Intl.Provider
+    <IntlContext.Provider
       value={intl}
     >
       {children}
-    </Intl.Provider>
+    </IntlContext.Provider>
   )
 }

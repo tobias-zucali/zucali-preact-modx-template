@@ -1,8 +1,9 @@
 import { h, toChildArray } from 'preact'
 import { useState } from 'preact/hooks'
+import classnames from 'classnames'
+
 import { Link } from 'preact-router'
 import Match from 'preact-router/match'
-import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
 
