@@ -48,8 +48,8 @@ export default function Header() {
     currentPage,
   } = usePages()
   const isScrolledToTop = useIsScrolledToTop()
-  const isLoaded = rootPage && rootPage.childPages
-  const isRoot = rootPage.id === currentPage.id
+  const isLoaded = !!currentPage
+  const isRoot = isLoaded && rootPage.id === currentPage.id
 
   return (
     <header>

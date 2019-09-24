@@ -44,7 +44,10 @@ export default function PageProvider({
           >
             <Helmet
               htmlAttributes={{ lang: intl.locale }}
-              title={`${intl.getTranslatedAttribute(pageInfo.currentPage, 'pagetitle')} | ${intl.get('pageTitle')}`}
+              title={pageInfo.currentPage
+                ? `${intl.getTranslatedAttribute(pageInfo.currentPage, 'pagetitle')} | ${intl.get('pageTitle')}`
+                : intl.get('pageTitle')
+              }
             />
             {children}
           </PageContext.Provider>
