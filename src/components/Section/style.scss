@@ -9,17 +9,18 @@
 }
 
 .foreground {
-  background: #FFFFFFCC;
+  background: #ffffffcc;
+  padding: 2.5em;
   position: relative;
   z-index: 100;
-  padding: 2.5em;
 
   @media (max-width: $breakpointSmall - 1) {
-    background: #FFFFFF;
+    background: #ffffff;
     margin-left: 3em;
     margin-right: 3em;
     margin-top: 70vh;
     margin-bottom: -30vh; // use some tricks to change when image is switching
+    width: 100%;
 
     .section:not(:first-child) & {
       margin-top: 100vh;
@@ -45,7 +46,7 @@
 }
 
 .quote {
-  background: inherit;
+  background: #ffffff;
   font-size: 1.2rem;
   line-height: 1.5;
   margin: 0;
@@ -65,24 +66,28 @@
 .quote::after {
   font-size: 500%;
   position: absolute;
-  text-shadow: 0 0 80px #FAFAFA;
+  text-shadow: 0 0 80px #ffffff;
 }
 .quote:before {
-  bottom: -5.4rem;
-  content: "“";
-  left: -0.15em;
+  bottom: -5.3rem;
+  content: "”";
+  left: -0.1em;
 
 }
 .quote:after {
-  content: "”";
-  right: -0.15em;
-  top: -3rem;
+  content: "“";
+  right: -0.1em;
+  top: -2.8rem;
 }
 .quoteAuthor {
   display: block;
   font-size: 1rem;
   font-style: normal;
   text-align: right;
+}
+
+.content {
+  overflow: hidden;
 }
 
 .sectionLink {
@@ -111,6 +116,7 @@
 }
 
 .backgroundImage {
+  background-position: center;
   background-size: cover;
   bottom: 0;
   left: 0;
@@ -118,7 +124,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  transform-origin: 30% 50%;
+  transform-origin: 10% 90%;
   transition: opacity 0.5s ease-in-out;
   will-change: transform, opacity;
 }
