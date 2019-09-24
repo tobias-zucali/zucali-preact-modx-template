@@ -134,7 +134,6 @@ export const PageListEntry = ({
 )
 
 export default function PageList(props) {
-  console.log(props)
   const pageList = usePageList(props)
 
   return pageList
