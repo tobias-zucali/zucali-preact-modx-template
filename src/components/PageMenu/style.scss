@@ -40,32 +40,3 @@
 .menuTopOverlay {
   height: 3em;
 }
-
-.menuList {
-  @include resetList;
-
-  & .menuList {
-    border-left: solid;
-    margin-left: 0.5em;
-    padding-left: 0.5em;
-  }
-  &.menuList_paddingBottom {
-    padding-bottom: 2em;
-  }
-}
-.menuListEntry {
-  display: flex;
-  flex-direction: column;
-}
-.menuListEntryLink {
-  @include resetLink;
-  @include menuHover;
-  padding: 0.5em;
-
-  &.menuListEntryLink_isActive {
-    color: $accentColor;
-    font-weight: 700;
-  }
-  &.menuListEntryLink_isParent {
-  }
-}

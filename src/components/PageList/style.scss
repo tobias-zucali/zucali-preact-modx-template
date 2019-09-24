@@ -1,0 +1,32 @@
+@import '../../style/variables.scss';
+@import '../../style/mixins.scss';
+
+
+.pageList {
+  @include resetList;
+
+  & .pageList {
+    border-left: solid;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+  }
+  &.pageList_paddingBottom {
+    padding-bottom: 2em;
+  }
+}
+.pageListEntry {
+  display: flex;
+  flex-direction: column;
+}
+.pageListEntryLink {
+  @include resetLink;
+  @include menuHover;
+  padding: 0.5em;
+
+  &.pageListEntryLink_isActive {
+    color: $accentColor;
+    font-weight: 700;
+  }
+  &.pageListEntryLink_isParent {
+  }
+}

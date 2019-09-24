@@ -1,117 +1,15 @@
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
-import { Link } from 'preact-router'
-import Match from 'preact-router/match'
 import classnames from 'classnames'
 
 import Hamburger from '../Hamburger'
+import PageList, { PageListEntry } from '../PageList'
 
 import useIntl from '../../hooks/useIntl'
 import useId from '../../hooks/useId'
 
-import filterPages from '../../utils/filterPages'
-
 import style from './style.scss'
 
-
-const MenuList = ({
-  children,
-  className,
-  filters,
-  isDisabled,
-  isRecursive,
-  onClick,
-  parent,
-  ...otherProps
-}) => {
-  const intl = useIntl()
-
-  const listItems = filterPages(parent.childPages, filters).map((childPage) => (
-    <MenuListPageEntry
-      isDisabled={isDisabled}
-      isRecursive={isRecursive}
-      key={childPage.href}
-      onClick={onClick}
-      page={childPage}
-    >
-      {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
-    </MenuListPageEntry>
-  ))
-
-  return listItems.length > 0 || children ? (
-    <ul
-      className={classnames(className, style.menuList)}
-      {...otherProps}
-    >
-      {children}
-      {listItems}
-    </ul>
-  ) : null
-}
-
-const MenuListPageEntry = ({
-  children,
-  filters,
-  isDisabled,
-  isRecursive,
-  onClick,
-  page,
-  ...otherProps
-}) => (
-  <MenuListEntry
-    href={page.href}
-    isDisabled={isDisabled}
-    nestedMenu={isRecursive && (
-      <MenuList
-        filters={filters}
-        isDisabled={isDisabled}
-        isRecursive={isRecursive}
-        onClick={onClick}
-        parent={page}
-      />
-    )}
-    onClick={onClick}
-    {...otherProps}
-  >
-    {children}
-  </MenuListEntry>
-)
-
-const MenuListEntry = ({
-  children,
-  className,
-  href,
-  isDisabled,
-  isRecursive,
-  nestedMenu,
-  onClick,
-  ...otherProps
-}) => (
-  <Match path={href}>
-    {({ matches, path, url }) => {
-      const isParent = !matches && path.startsWith(href)
-      return (
-        <li
-          className={classnames(className, style.menuListEntry)}
-          {...otherProps}
-        >
-          <Link
-            className={classnames(style.menuListEntryLink, {
-              [style.menuListEntryLink_isActive]: matches,
-              [style.menuListEntryLink_isParent]: isParent,
-            })}
-            href={href}
-            onClick={onClick}
-            role="menuitem"
-            tabIndex={isDisabled ? -1 : 0}
-          >
-            {children}
-          </Link>
-          {nestedMenu}
-        </li>)
-    }}
-  </Match>
-)
 
 export default function PageMenu({
   rootPage,
@@ -153,8 +51,8 @@ export default function PageMenu({
         role="menu"
       >
         <div className={style.menuTopOverlay} />
-        <MenuList
-          className={style.menuList_paddingBottom}
+        <PageList
+          className={style.pageList_paddingBottom}
           filters={{
             hasChildren: false,
           }}
@@ -163,20 +61,20 @@ export default function PageMenu({
           onClick={handleClick}
           parent={rootPage}
         >
-          <MenuListEntry
+          <PageListEntry
             href="/"
             onClick={handleClick}
           >
             TODO: switch language
-          </MenuListEntry>
-          <MenuListEntry
+          </PageListEntry>
+          <PageListEntry
             href="/"
             onClick={handleClick}
           >
             {intl.get('home')}
-          </MenuListEntry>
-        </MenuList>
-        <MenuList
+          </PageListEntry>
+        </PageList>
+        <PageList
           filters={{
             hasChildren: true,
           }}
