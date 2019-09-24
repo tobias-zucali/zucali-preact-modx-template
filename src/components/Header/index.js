@@ -4,6 +4,7 @@ import Match from 'preact-router/match'
 import classnames from 'classnames'
 
 import useIntl from '../../hooks/useIntl'
+import usePages from '../../hooks/usePages'
 import useIsScrolledToTop from '../../hooks/useIsScrolledToTop'
 
 import filterPages from '../../utils/filterPages'
@@ -17,6 +18,7 @@ import style from './style.scss'
 const NavListEntry = ({
   className,
   href,
+  isBreadCrumb,
   ...otherProps
 }) => (
   <Match path={href}>
@@ -24,28 +26,30 @@ const NavListEntry = ({
       const isParent = !matches && path.startsWith(href)
       return (
         <li
-          className={classnames(className, style.navListEntry, {
-            [style.navListEntry_isActive]: matches,
-            [style.navListEntry_isParent]: isParent,
-          })}
+          className={classnames(className, style.navListEntry)}
         >
           <Link
-            className={style.navListEntryLink}
+            className={classnames(style.navListEntryLink, {
+              [style.navListEntryLink_isActive]: matches,
+            })}
             href={href}
             {...otherProps}
           />
+          {isBreadCrumb && '>'}
         </li>)
     }}
   </Match>
 )
 
-export default function Header({
-  rootPage,
-}) {
+export default function Header() {
   const intl = useIntl()
+  const {
+    rootPage,
+    currentPage,
+  } = usePages()
   const isScrolledToTop = useIsScrolledToTop()
-
   const isLoaded = rootPage && rootPage.childPages
+  const isRoot = rootPage.id === currentPage.id
 
   return (
     <header>
@@ -75,7 +79,7 @@ export default function Header({
         <ul
           className={style.navList}
         >
-          {isLoaded && filterPages(rootPage.childPages, {
+          {isLoaded && isRoot && filterPages(rootPage.childPages, {
             hasChildren: true,
             hidemenu: false,
           }).map((page) => (
@@ -83,7 +87,19 @@ export default function Header({
               href={page.href}
               key={page.href}
             >
-              {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
+              {`${page.menutitle || intl.getTranslatedAttribute(page, 'pagetitle')} `}
+            </NavListEntry>
+          ))}
+          {isLoaded && !isRoot && [
+            ...currentPage.parentPages,
+            currentPage,
+          ].map((page, index) => (
+            <NavListEntry
+              href={page.href}
+              isBreadCrumb={index < currentPage.parentPages.length}
+              key={page.href}
+            >
+              {`${page.menutitle || intl.getTranslatedAttribute(page, 'pagetitle')} `}
             </NavListEntry>
           ))}
         </ul>

@@ -5,8 +5,8 @@ import useRootPage from '../../hooks/useRootPage'
 
 import Todo from '../Todo'
 import Home from '../Home'
-import PageProvider from '../PageProvider'
 
+import PageProvider from '../../components/PageProvider'
 import TransitionDisabler from '../../components/TransitionDisabler'
 import IntlProvider from '../../components/IntlProvider'
 import Header from '../../components/Header'
@@ -29,9 +29,7 @@ export default function App() {
         locale="en"
       >
         <PageProvider>
-          <Header
-            rootPage={rootPage}
-          />
+          <Header />
           {rootPage ? (
             <Router
               key="router"

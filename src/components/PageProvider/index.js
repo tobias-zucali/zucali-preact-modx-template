@@ -6,8 +6,6 @@ import Helmet from 'preact-helmet'
 
 import PageContext from './context'
 
-import manifest from '../../manifest.json'
-
 import useRootPage from '../../hooks/useRootPage'
 import useIntl from '../../hooks/useIntl'
 
@@ -46,7 +44,7 @@ export default function PageProvider({
           >
             <Helmet
               htmlAttributes={{ lang: intl.locale }}
-              title={`${intl.getTranslatedAttribute(pageInfo.currentPage, 'pagetitle')} | ${manifest.name}`}
+              title={`${intl.getTranslatedAttribute(pageInfo.currentPage, 'pagetitle')} | ${intl.get('pageTitle')}`}
             />
             {children}
           </PageContext.Provider>

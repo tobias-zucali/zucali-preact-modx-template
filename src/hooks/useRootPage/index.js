@@ -55,25 +55,28 @@ const prepareResources = (resources) => {
   }), {})
 
   const recursiveGetPageWithChildren = (page, parentPages = []) => {
-    const childIds = allChildIds[page.id] || []
+    const pageWithParents = {
+      ...page,
+      parentPages,
+    }
+    const pageWithHref = pageWithParents.href ? pageWithParents : {
+      ...pageWithParents,
+      href: getPageHref(pageWithParents),
+    }
+
+    const childIds = allChildIds[pageWithHref.id] || []
+    const childParents = [
+      ...parentPages,
+      pageWithHref,
+    ]
     const childPages = childIds.map(
-      (childId) => {
-        const childPage = recursiveGetPageWithChildren(resourcesById[childId], [
-          ...parentPages,
-          page,
-        ])
-        return {
-          ...childPage,
-          href: getPageHref(childPage),
-        }
-      }
+      (childId) => recursiveGetPageWithChildren(resourcesById[childId], childParents)
     ).sort(
       (a, b) => a.menuindex - b.menuindex
     )
     return {
-      ...page,
+      ...pageWithHref,
       childPages,
-      parentPages,
     }
   }
 

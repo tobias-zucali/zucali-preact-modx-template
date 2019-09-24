@@ -41,6 +41,7 @@
   display: none;
   left: 2.75em;
   position: fixed;
+  right: $sidebarWidth;
   top: 0.5em;
   z-index: 1000;
 
@@ -51,23 +52,20 @@
 }
 .navList {
   @include resetList;
-  display: flex;
-  flex-direction: row;
-  left: 0;
-  position: absolute;
-  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .navListEntry {
-  @include menuHover;
-  display: flex;
-
-  &.navListEntry_isActive {
-    font-weight: 700;
-  }
-  &.navListEntry_isParent {
-  }
+  display: inline;
 }
 .navListEntryLink {
+  @include menuHover;
   @include resetLink;
+  display: inline-block;
   padding: 0.5em;
+
+  &.navListEntryLink_isActive {
+    font-weight: 700;
+  }
 }
