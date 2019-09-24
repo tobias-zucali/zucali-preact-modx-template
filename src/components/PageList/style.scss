@@ -6,23 +6,33 @@
   @include resetList;
 
   & .pageList {
-    border-left: solid;
-    margin-left: 0.5em;
-    padding-left: 0.5em;
-  }
-  &.pageList_paddingBottom {
-    padding-bottom: 2em;
+    padding-left: 1.5em;
   }
 }
 .pageListEntry {
-  display: flex;
-  flex-direction: column;
+}
+.pageListEntryExpand {
+  @include resetButton;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.5em;
+  width: 1.5em;
+
+  &:hover,
+  &:focus {
+    color: $accentColor;
+  }
 }
 .pageListEntryLink {
   @include resetLink;
   @include menuHover;
+  display: inline-block;
   padding: 0.5em;
 
+  .pageListEntryExpand + & {
+    padding-left: 0;
+  }
   &.pageListEntryLink_isActive {
     color: $accentColor;
     font-weight: 700;

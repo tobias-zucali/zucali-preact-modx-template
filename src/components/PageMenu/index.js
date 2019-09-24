@@ -52,12 +52,12 @@ export default function PageMenu({
       >
         <div className={style.menuTopOverlay} />
         <PageList
-          className={style.pageList_paddingBottom}
+          className={style.metaList}
           filters={{
             hasChildren: false,
           }}
           isDisabled={!isMenuOpen}
-          isRecursive={true}
+          isRecursive={false}
           onClick={handleClick}
           parent={rootPage}
         >
