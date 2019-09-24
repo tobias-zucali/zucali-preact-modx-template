@@ -1,3 +1,6 @@
-$breakpointSmall: 960px;
+$breakpointMedium: 960px;
+$breakpointSmall: 800px;
+$breakpointXSmall: 500px;
+
 $accentColor: #c20707;
 $accentHoverColor: scale-color($accentColor, $lightness: 10%);

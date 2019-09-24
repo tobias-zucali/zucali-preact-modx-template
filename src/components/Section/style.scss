@@ -5,34 +5,61 @@
 
 .section {
   display: flex;
-  overflow: hidden;
   position: relative;
 }
 
 .foreground {
-  background: #FAFAFACC;
-  margin-left: auto;
-  max-width: 80vw;
-  padding: 50vh 2.5em 2.5em 2.5em;
+  background: #FFFFFFCC;
   position: relative;
-  width: 28em;
   z-index: 100;
+  padding: 2.5em;
 
-  .section:first-child & {
-    padding-top: 70vh;
+  @media (max-width: $breakpointSmall - 1) {
+    background: #FFFFFF;
+    margin-left: 3em;
+    margin-right: 3em;
+    margin-top: 70vh;
+    margin-bottom: -30vh; // use some tricks to change when image is switching
+
+    .section:not(:first-child) & {
+      margin-top: 100vh;
+    }
+    .section:last-child & {
+      margin-bottom: 40vh;
+    }
+  }
+  @media (max-width: $breakpointXSmall - 1) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  @media (min-width: $breakpointSmall) {
+    margin-left: auto;
+    max-width: 80vw;
+    padding-top: 50vh;
+    width: 28em;
+
+    .section:first-child & {
+      padding-top: 70vh;
+    }
   }
 }
 
 .quote {
-  background: #FAFAFA;
-  color: #000000;
+  background: inherit;
   font-size: 1.2rem;
   line-height: 1.5;
   margin: 0;
   padding: 1em;
   position: relative;
-  right: 18em;
-  width: 34em;
+
+  @media (max-width: $breakpointSmall - 1) {
+    bottom: 0 !important; // disable inline style
+    margin: -1em -1em 2em -1em;
+  }
+  @media (min-width: $breakpointSmall) {
+    right: 35vw;
+    width: 34em;
+  }
 }
 .quote:before,
 .quote::after {
@@ -91,7 +118,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  transform-origin: 10% 90%;
+  transform-origin: 30% 50%;
   transition: opacity 0.5s ease-in-out;
   will-change: transform, opacity;
 }
