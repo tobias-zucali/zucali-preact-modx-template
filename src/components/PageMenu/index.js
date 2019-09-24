@@ -77,9 +77,13 @@ export default function PageMenu({
         <PageList
           filters={{
             hasChildren: true,
+            hidemenu: false,
           }}
           isDisabled={!isMenuOpen}
           isRecursive={true}
+          recursiveFilters={{
+            hidemenu: false,
+          }}
           onClick={handleClick}
           parent={rootPage}
         />

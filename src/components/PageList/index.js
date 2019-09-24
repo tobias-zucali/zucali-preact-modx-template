@@ -30,11 +30,13 @@ const usePageList = (props) => {
     isRecursive,
     onClick,
     parent,
+    recursiveFilters,
     ...otherProps
   } = props
 
-  const listItems = filterPages(parent.childPages, filters).map((childPage) => (
+  const listItems = filterPages(parent.childPages, recursiveFilters).map((childPage) => (
     <PageListPageEntry
+      recursiveFilters={recursiveFilters}
       isDisabled={isDisabled}
       isRecursive={isRecursive}
       key={childPage.href}
@@ -58,7 +60,7 @@ const usePageList = (props) => {
 
 export const PageListPageEntry = ({
   children,
-  filters,
+  recursiveFilters,
   isDisabled,
   isRecursive,
   onClick,
@@ -66,7 +68,7 @@ export const PageListPageEntry = ({
   ...otherProps
 }) => {
   const nestedMenu = usePageList(isRecursive && {
-    filters,
+    recursiveFilters,
     isDisabled,
     isRecursive,
     onClick,
