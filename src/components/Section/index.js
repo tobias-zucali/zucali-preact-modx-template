@@ -71,7 +71,7 @@ export default function Section({
           })}
           style={{
             backgroundImage: `url(${url})`,
-            transform: `scale(${parallaxScale * 0.2 + 1})`,
+            transform: `scale(${parallaxScale * 0.4 + 1})`,
           }}
         />
       </div>
