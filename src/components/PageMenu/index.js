@@ -7,6 +7,7 @@ import PageList, { PageListEntry } from '../PageList'
 
 import useIntl from '../../hooks/useIntl'
 import useId from '../../hooks/useId'
+import filterPages from '../../utils/filterPages'
 
 import style from './style.scss'
 
@@ -53,13 +54,12 @@ export default function PageMenu({
         <div className={style.menuTopOverlay} />
         <PageList
           className={style.metaList}
-          filters={{
-            hasChildren: false,
-          }}
           isDisabled={!isMenuOpen}
           isRecursive={false}
           onClick={handleClick}
-          parent={rootPage}
+          childPages={filterPages(rootPage.childPages, {
+            hasChildren: false,
+          })}
         >
           <PageListEntry
             href="/"
@@ -71,21 +71,20 @@ export default function PageMenu({
             href="/"
             onClick={handleClick}
           >
-            {intl.get('home')}
+            {rootPage.menutitle || intl.getTranslatedAttribute(rootPage, 'pagetitle')}
           </PageListEntry>
         </PageList>
         <PageList
           filters={{
-            hasChildren: true,
             hidemenu: false,
           }}
           isDisabled={!isMenuOpen}
           isRecursive={true}
-          recursiveFilters={{
-            hidemenu: false,
-          }}
           onClick={handleClick}
-          parent={rootPage}
+          childPages={rootPage.childPages}
+          childPages={filterPages(rootPage.childPages, {
+            hasChildren: true,
+          })}
         />
       </div>
     ) : null,
