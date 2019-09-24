@@ -9,7 +9,6 @@ import Hamburger from '../Hamburger'
 import useIntl from '../../hooks/useIntl'
 import useId from '../../hooks/useId'
 
-import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
 
 import style from './style.scss'
@@ -27,21 +26,17 @@ const MenuList = ({
 }) => {
   const intl = useIntl()
 
-  const listItems = filterPages(parent.childPages, filters).map((childPage) => {
-    const href = getPageHref(childPage)
-    return (
-      <MenuListPageEntry
-        href={href}
-        isDisabled={isDisabled}
-        isRecursive={isRecursive}
-        key={href}
-        onClick={onClick}
-        page={childPage}
-      >
-        {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
-      </MenuListPageEntry>
-    )
-  })
+  const listItems = filterPages(parent.childPages, filters).map((childPage) => (
+    <MenuListPageEntry
+      isDisabled={isDisabled}
+      isRecursive={isRecursive}
+      key={childPage.href}
+      onClick={onClick}
+      page={childPage}
+    >
+      {`${intl.getTranslatedAttribute(childPage, 'pagetitle')} `}
+    </MenuListPageEntry>
+  ))
 
   return listItems.length > 0 || children ? (
     <ul
@@ -57,7 +52,6 @@ const MenuList = ({
 const MenuListPageEntry = ({
   children,
   filters,
-  href,
   isDisabled,
   isRecursive,
   onClick,
@@ -65,7 +59,7 @@ const MenuListPageEntry = ({
   ...otherProps
 }) => (
   <MenuListEntry
-    href={href}
+    href={page.href}
     isDisabled={isDisabled}
     nestedMenu={isRecursive && (
       <MenuList

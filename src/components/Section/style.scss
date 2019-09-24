@@ -1,3 +1,5 @@
+@import '../../style/mixins.scss';
+@import '../../style/variables.scss';
 @import './variables.scss';
 
 
@@ -5,17 +7,20 @@
   display: flex;
   overflow: hidden;
   position: relative;
-  min-height: 140vh;
 }
 
 .foreground {
   background: #FAFAFACC;
   margin-left: auto;
   max-width: 80vw;
-  padding: 70vh 2.5em 2.5em 2.5em;
+  padding: 50vh 2.5em 2.5em 2.5em;
   position: relative;
   width: 28em;
   z-index: 100;
+
+  .section:first-child & {
+    padding-top: 70vh;
+  }
 }
 
 .quote {
@@ -51,6 +56,22 @@
   font-size: 1rem;
   font-style: normal;
   text-align: right;
+}
+
+.sectionLink {
+  @include resetLink;
+  background: $accentColor;
+  color: #ffffff;
+  display: block;
+  font-weight: bold;
+  margin-top: 4em;
+  padding: 1em 2em;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    background: $accentHoverColor;
+  }
 }
 
 .background {

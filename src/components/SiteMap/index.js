@@ -1,15 +1,11 @@
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
 
-import getPageHref from '../../utils/getPageHref'
-
 import style from './style.css'
 
 
 export default function SiteMap({ page }) {
   const {
-    alias,
-    parentPages = [],
     pagetitle,
     childPages = [],
   } = page
@@ -18,7 +14,7 @@ export default function SiteMap({ page }) {
     <div className={style.sitemap}>
       <Link
         activeClassName={style.active}
-        href={getPageHref(page)}
+        href={page.href}
       >{pagetitle}</Link>
       <ul>
         {childPages.map((child) => (

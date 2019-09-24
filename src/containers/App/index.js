@@ -1,7 +1,6 @@
 import { h } from 'preact'
 import { route, Router } from 'preact-router'
 
-import getPageHref from '../../utils/getPageHref'
 import useResources from '../../hooks/useResources'
 
 import Todo from '../Todo'
@@ -36,17 +35,14 @@ export default function App() {
             key="router"
             onChange={redirectHtmlUrls}
           >
-            {rootPage.childPages.map((page) => {
-              const href = getPageHref(page)
-              return (
-                <Todo
-                  key={href}
-                  page={page}
-                  rootPage={rootPage}
-                  path={href}
-                />
-              )
-            })}
+            {rootPage.childPages.map((page) => (
+              <Todo
+                key={page.href}
+                page={page}
+                rootPage={rootPage}
+                path={page.href}
+              />
+            ))}
             <Home
               default
               page={rootPage}

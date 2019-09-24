@@ -11,14 +11,14 @@ export default function Home({
   return (
     <div>
       <Section
-        data={page}
+        page={page}
       />
       {filterPages(
         page.childPages,
         { hidemenu: false }
       ).map((child) => (
         <Section
-          data={child}
+          page={child}
           key={child.id}
         />
       ))}

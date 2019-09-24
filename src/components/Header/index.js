@@ -6,7 +6,6 @@ import classnames from 'classnames'
 import useIntl from '../../hooks/useIntl'
 import useIsScrolledToTop from '../../hooks/useIsScrolledToTop'
 
-import getPageHref from '../../utils/getPageHref'
 import filterPages from '../../utils/filterPages'
 
 import Logo from '../Logo'
@@ -79,17 +78,14 @@ export default function Header({
           {isLoaded && filterPages(rootPage.childPages, {
             hasChildren: true,
             hidemenu: false,
-          }).map((page) => {
-            const href = getPageHref(page)
-            return (
-              <NavListEntry
-                href={href}
-                key={href}
-              >
-                {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
-              </NavListEntry>
-            )
-          })}
+          }).map((page) => (
+            <NavListEntry
+              href={page.href}
+              key={page.href}
+            >
+              {`${intl.getTranslatedAttribute(page, 'pagetitle')} `}
+            </NavListEntry>
+          ))}
         </ul>
       </nav>
     </header>

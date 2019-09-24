@@ -1,4 +1,5 @@
 import { h } from 'preact'
+import Match from 'preact-router/match'
 import classnames from 'classnames'
 
 import useSectionBackground from '../../hooks/useSectionBackground'
@@ -8,7 +9,7 @@ import style from './style.scss'
 
 
 export default function Section({
-  data,
+  page,
 }) {
   const intl = useIntl()
   const {
@@ -16,21 +17,21 @@ export default function Section({
     isVisible,
     parallaxScale,
     sectionRef,
-  } = useSectionBackground(data.cover)
+  } = useSectionBackground(page.cover)
 
-  const quote = intl.getTranslatedAttribute(data, 'quote')
-  const quoteAuthor = intl.getTranslatedAttribute(data, 'quoteAuthor')
-  const pagetitle = intl.getTranslatedAttribute(data, 'pagetitle')
-  const content = intl.getTranslatedAttribute(data, 'content')
+  const quote = intl.getTranslatedAttribute(page, 'quote')
+  const quoteAuthor = intl.getTranslatedAttribute(page, 'quoteAuthor')
+  const pagetitle = intl.getTranslatedAttribute(page, 'pagetitle')
+  const content = intl.getTranslatedAttribute(page, 'content')
 
   return (
     <div
       className={style.section}
-      id={data.alias}
+      id={page.alias}
       ref={sectionRef}
     >
       <div className={style.foreground}>
-        {data.quote && (
+        {page.quote && (
           <blockquote
             className={style.quote}
             style={{
@@ -52,6 +53,16 @@ export default function Section({
           className={style.content}
           dangerouslySetInnerHTML={{ __html: content }}
         />
+        <Match path={page.href}>
+          {({ matches }) => !matches && (
+            <a
+              href={page.href}
+              className={style.sectionLink}
+            >
+              TODO: nice button text
+            </a>
+          )}
+        </Match>
       </div>
       <div className={style.background}>
         <div

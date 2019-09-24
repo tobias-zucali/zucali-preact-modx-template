@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'preact/hooks'
 
+import getPageHref from '../../utils/getPageHref'
 import { Host, ROOT_ID, INSTRUMENTS_ID } from '../../constants'
 
 
@@ -56,10 +57,16 @@ const prepareResources = (resources) => {
   const recursiveGetPageWithChildren = (page, parentPages = []) => {
     const childIds = allChildIds[page.id] || []
     const childPages = childIds.map(
-      (childId) => recursiveGetPageWithChildren(resourcesById[childId], [
-        ...parentPages,
-        page,
-      ])
+      (childId) => {
+        const childPage = recursiveGetPageWithChildren(resourcesById[childId], [
+          ...parentPages,
+          page,
+        ])
+        return {
+          ...childPage,
+          href: getPageHref(childPage),
+        }
+      }
     ).sort(
       (a, b) => a.menuindex - b.menuindex
     )
@@ -70,7 +77,10 @@ const prepareResources = (resources) => {
     }
   }
 
-  return recursiveGetPageWithChildren(resourcesById[ROOT_ID])
+  return recursiveGetPageWithChildren({
+    ...resourcesById[ROOT_ID],
+    href: '/',
+  })
 }
 
 const preloadedResults = (IS_BROWSER && window.ZUCALI_RESOURCES)
