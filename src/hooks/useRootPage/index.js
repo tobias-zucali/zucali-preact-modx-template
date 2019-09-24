@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks'
 
 import getPageHref from '../../utils/getPageHref'
+import fixResourcesAlias from '../../utils/fixResourcesAlias'
 import { Host, ROOT_ID, INSTRUMENTS_ID } from '../../constants'
 
 
@@ -49,7 +50,8 @@ const prepareResources = (resources) => {
       ],
     }
   }, {})
-  const resourcesById = resources.reduce((acc, page) => ({
+  const resourcesFixedAlias = fixResourcesAlias(resources)
+  const resourcesById = resourcesFixedAlias.reduce((acc, page) => ({
     ...acc,
     [page.id]: page,
   }), {})
