@@ -1,9 +1,10 @@
 import { h } from 'preact'
-import { route, Router } from 'preact-router'
+import { Router } from 'preact-router'
 
 import useRootPage from '../../hooks/useRootPage'
+import handleRouteChange from '../../utils/handleRouteChange'
 
-import Todo from '../Todo'
+import ChildPage from '../ChildPage'
 import Home from '../Home'
 
 import PageProvider from '../../components/PageProvider'
@@ -12,13 +13,14 @@ import IntlProvider from '../../components/IntlProvider'
 import Header from '../../components/Header'
 
 
-const htmlUrlExp = /([^#?]*)(\.html?)(($|\?|#).*)/i
-const redirectHtmlUrls = ({ url }) => {
-  const urlWithoutExtension = url.replace(htmlUrlExp, '$1$3')
-  if (url !== urlWithoutExtension) {
-    route(urlWithoutExtension, true)
-  }
-}
+const getChildRoutes = ({ childPages }) => childPages.map((page) => [
+  <ChildPage
+    key={page.href}
+    page={page}
+    path={page.href}
+  />,
+  ...getChildRoutes(page),
+])
 
 export default function App() {
   const rootPage = useRootPage()
@@ -33,16 +35,9 @@ export default function App() {
           {rootPage ? (
             <Router
               key="router"
-              onChange={redirectHtmlUrls}
+              onChange={handleRouteChange}
             >
-              {rootPage.childPages.map((page) => (
-                <Todo
-                  key={page.href}
-                  page={page}
-                  rootPage={rootPage}
-                  path={page.href}
-                />
-              ))}
+              {getChildRoutes(rootPage)}
               <Home
                 default
                 page={rootPage}

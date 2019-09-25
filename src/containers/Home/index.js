@@ -9,7 +9,7 @@ export default function Home({
   page,
 }) {
   return (
-    <div>
+    <>
       <Section
         page={page}
       />
@@ -22,6 +22,6 @@ export default function Home({
           key={child.id}
         />
       ))}
-    </div>
+    </>
   )
 }

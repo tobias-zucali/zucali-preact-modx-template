@@ -54,7 +54,7 @@ export default function Section({
           dangerouslySetInnerHTML={{ __html: content }}
         />
         <Match path={page.href}>
-          {({ matches }) => !matches && (
+          {({ matches }) => !matches && page.childPages.length > 0 && (
             <a
               href={page.href}
               className={style.sectionLink}
