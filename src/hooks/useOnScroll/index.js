@@ -30,8 +30,7 @@ if (IS_BROWSER) {
 
   window.addEventListener(
     'scroll',
-    // () => !isFrameRequested && requestFrame()
-    () => executeCallbacks()
+    () => !isFrameRequested && requestFrame()
   )
 }
 
