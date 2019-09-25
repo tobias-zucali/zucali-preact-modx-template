@@ -1,9 +1,13 @@
 import { useRef, useState } from 'preact/hooks'
+import isEqual from 'lodash/isEqual'
 
 import useImagePreload from '../useImagePreload'
 import useOnScroll from '../useOnScroll'
 import getCmsImageUrl from '../../utils/getCmsImageUrl'
 
+
+// inspired by https://gist.github.com/gre/1650294 and https://joshondesign.com/2013/03/01/improvedEasingEquations
+const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
 
 const SCROLL_POSITION_GAP = 0.5
 const IS_BROWSER = (typeof window !== 'undefined')
@@ -17,7 +21,7 @@ const backgroundImageSize = {
   width: screen.width * 1.2,
 }
 
-const getTop = (event, sectionElement) => {
+const getPositions = (event, sectionElement) => {
   const {
     windowHeight: viewportHeight,
     scrollTop: viewportTop,
@@ -28,39 +32,35 @@ const getTop = (event, sectionElement) => {
     offsetTop,
     offsetHeight,
   } = sectionElement
-  const firstVisibleHeight = offsetTop
-  const lastVisibleHeight = offsetTop + offsetHeight
+  const firstVisibleTop = offsetTop
+  const lastVisibleTop = offsetTop + offsetHeight
+  const visibleHeight = offsetHeight + viewportHeight
 
-  const fromTop = viewportBottom - firstVisibleHeight
-  const fromBottom = lastVisibleHeight - viewportTop
+  const fromTop = viewportBottom - firstVisibleTop
+  const fromBottom = lastVisibleTop - viewportTop
 
+  let top = 0
   if (fromTop < 0) {
-    return 1
+    top = 1
+  } else if (fromTop < viewportHeight) {
+    top = 1 - easeInOutQuad(fromTop / viewportHeight)
+  } else if (fromBottom < 0) {
+    top = -1
+  } else if (fromBottom < viewportHeight) {
+    top = easeInOutQuad(fromBottom / viewportHeight) - 1
   }
-  if (fromTop < viewportHeight) {
-    return 1 - (fromTop / viewportHeight)
-  }
-  if (fromBottom < 0) {
-    return -1
-  }
-  if (fromBottom < viewportHeight) {
-    return (fromBottom / viewportHeight) - 1
-  }
-  return 0
 
-  // if (fromTop < 0) {
-  //   return viewportHeight
-  // }
-  // if (fromTop < viewportHeight) {
-  //   return viewportHeight - fromTop
-  // }
-  // if (fromBottom < 0) {
-  //   return viewportHeight * -1
-  // }
-  // if (fromBottom < viewportHeight) {
-  //   return (viewportHeight - fromBottom) * -1
-  // }
-  // return 0
+  let progress = 0
+  if (fromTop > visibleHeight) {
+    progress = 1
+  } else if (fromTop > 0 && fromTop < visibleHeight) {
+    progress = fromTop / visibleHeight
+  }
+
+  return {
+    top,
+    progress,
+  }
 }
 
 
@@ -69,11 +69,11 @@ export default function useSectionBackground(path) {
   const isCoverImageLoaded = useImagePreload(url)
 
   const sectionRef = useRef()
-  const [top, setTop] = useState(0)
+  const [positions, setPositions] = useState(-1)
   useOnScroll((event) => {
-    const newTop = getTop(event, sectionRef.current)
-    if (top !== newTop) {
-      setTop(newTop)
+    const newPositions = getPositions(event, sectionRef.current)
+    if (!isEqual(positions, newPositions)) {
+      setPositions(newPositions)
     }
   })
 
@@ -82,7 +82,7 @@ export default function useSectionBackground(path) {
   return {
     url,
     isVisible,
-    top,
     sectionRef,
+    ...positions,
   }
 }

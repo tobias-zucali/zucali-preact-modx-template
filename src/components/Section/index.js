@@ -13,11 +13,11 @@ export default function Section({
 }) {
   const intl = useIntl()
   const {
-    url,
     isVisible,
-    parallaxScale,
+    progress,
     sectionRef,
     top,
+    url,
   } = useSectionBackground(page.cover)
 
   const quote = intl.getTranslatedAttribute(page, 'quote')
@@ -27,9 +27,6 @@ export default function Section({
 
   return (
     <div
-      data-top={top}
-
-
       className={style.section}
       id={page.alias}
       ref={sectionRef}
@@ -39,7 +36,7 @@ export default function Section({
           <blockquote
             className={style.quote}
             style={{
-              // bottom: `${parallaxScale * 600 - 100}px`,
+              bottom: `${progress * 400}px`,
             }}
           >
             {quote}
@@ -76,8 +73,7 @@ export default function Section({
           style={{
             backgroundImage: `url(${url})`,
             top: `${top * 100}%`,
-            // top: `${parallaxScale * 100}%`,
-            // transform: `scale(${parallaxScale * 0.4 + 1})`,
+            transform: `scale(${progress * 0.4 + 1})`,
           }}
         />
       </div>
