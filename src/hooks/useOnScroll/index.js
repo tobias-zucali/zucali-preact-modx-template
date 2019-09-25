@@ -12,14 +12,17 @@ export const getCallbackArgs = () => ({
 })
 
 let callbacks = []
+const executeCallbacks = () => {
+  const args = getCallbackArgs()
+  callbacks.forEach((callback) => {
+    callback(args)
+  })
+}
 if (IS_BROWSER) {
   let isFrameRequested = false
   const requestFrame = () => {
     window.requestAnimationFrame(() => {
-      const args = getCallbackArgs()
-      callbacks.forEach((callback) => {
-        callback(args)
-      })
+      executeCallbacks()
       isFrameRequested = false
     })
     isFrameRequested = true
@@ -27,7 +30,8 @@ if (IS_BROWSER) {
 
   window.addEventListener(
     'scroll',
-    () => !isFrameRequested && requestFrame()
+    // () => !isFrameRequested && requestFrame()
+    () => executeCallbacks()
   )
 }
 

@@ -6,56 +6,83 @@ import getCmsImageUrl from '../../utils/getCmsImageUrl'
 
 
 const SCROLL_POSITION_GAP = 0.5
+const IS_BROWSER = (typeof window !== 'undefined')
 
-const getElementScrollPosition = (event, element) => {
+const screen = (IS_BROWSER && window.screen) || {
+  height: 800,
+  width: 1200,
+}
+const backgroundImageSize = {
+  height: screen.height * 1.2,
+  width: screen.width * 1.2,
+}
+
+const getTop = (event, sectionElement) => {
   const {
-    windowHeight,
+    windowHeight: viewportHeight,
     scrollTop: viewportTop,
   } = event
-  const viewportBottom = viewportTop + windowHeight
+  const viewportBottom = viewportTop + viewportHeight
 
   const {
     offsetTop,
     offsetHeight,
-  } = element
-  const visibleHeight = offsetHeight + windowHeight
+  } = sectionElement
+  const firstVisibleHeight = offsetTop
+  const lastVisibleHeight = offsetTop + offsetHeight
 
-  // fix fadeout on safari
-  if (viewportTop <= 0 && offsetTop === 0) {
-    return 0
-  }
+  const fromTop = viewportBottom - firstVisibleHeight
+  const fromBottom = lastVisibleHeight - viewportTop
 
-  const elementScrollPosition = (viewportBottom - offsetTop - windowHeight) / visibleHeight
-  if (elementScrollPosition < 0 - SCROLL_POSITION_GAP) {
-    return 0 - SCROLL_POSITION_GAP
-  } else if (elementScrollPosition > SCROLL_POSITION_GAP + 1) {
-    return SCROLL_POSITION_GAP + 1
-  } else {
-    return elementScrollPosition
+  if (fromTop < 0) {
+    return 1
   }
+  if (fromTop < viewportHeight) {
+    return 1 - (fromTop / viewportHeight)
+  }
+  if (fromBottom < 0) {
+    return -1
+  }
+  if (fromBottom < viewportHeight) {
+    return (fromBottom / viewportHeight) - 1
+  }
+  return 0
+
+  // if (fromTop < 0) {
+  //   return viewportHeight
+  // }
+  // if (fromTop < viewportHeight) {
+  //   return viewportHeight - fromTop
+  // }
+  // if (fromBottom < 0) {
+  //   return viewportHeight * -1
+  // }
+  // if (fromBottom < viewportHeight) {
+  //   return (viewportHeight - fromBottom) * -1
+  // }
+  // return 0
 }
 
 
 export default function useSectionBackground(path) {
-  const url = getCmsImageUrl({ path })
+  const url = getCmsImageUrl({ path, ...backgroundImageSize })
   const isCoverImageLoaded = useImagePreload(url)
 
   const sectionRef = useRef()
-  const [scrollPosition, setScrollPosition] = useState(0)
+  const [top, setTop] = useState(0)
   useOnScroll((event) => {
-    const newScrollPosition = getElementScrollPosition(event, sectionRef.current)
-    if (scrollPosition !== newScrollPosition) {
-      setScrollPosition(newScrollPosition)
+    const newTop = getTop(event, sectionRef.current)
+    if (top !== newTop) {
+      setTop(newTop)
     }
   })
 
-  const isVisible = isCoverImageLoaded && scrollPosition >= 0 && scrollPosition <= 1
-  const parallaxScale = (scrollPosition + SCROLL_POSITION_GAP) / (1 + 2 * SCROLL_POSITION_GAP)
+  const isVisible = isCoverImageLoaded
 
   return {
     url,
     isVisible,
-    parallaxScale,
+    top,
     sectionRef,
   }
 }

@@ -118,17 +118,17 @@
 .backgroundImage {
   background-position: center;
   background-size: cover;
-  bottom: 0;
   left: 0;
   opacity: 1;
   position: absolute;
   right: 0;
   top: 0;
+  height: 100%;
   transform-origin: 10% 90%;
   transition: opacity 0.5s ease-in-out;
   will-change: transform, opacity;
-}
 
-.backgroundImage.backgroundImage_hidden {
-  opacity: 0;
+  &.backgroundImage_hidden {
+    opacity: 0;
+  }
 }
