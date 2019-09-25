@@ -20,13 +20,18 @@ const getElementScrollPosition = (event, element) => {
   } = element
   const visibleHeight = offsetHeight + windowHeight
 
-  const scrollPosition = (viewportBottom - offsetTop - windowHeight) / visibleHeight
-  if (scrollPosition < 0 - SCROLL_POSITION_GAP) {
+  // fix fadeout on safari
+  if (viewportTop <= 0 && offsetTop === 0) {
+    return 0
+  }
+
+  const elementScrollPosition = (viewportBottom - offsetTop - windowHeight) / visibleHeight
+  if (elementScrollPosition < 0 - SCROLL_POSITION_GAP) {
     return 0 - SCROLL_POSITION_GAP
-  } else if (scrollPosition > SCROLL_POSITION_GAP + 1) {
+  } else if (elementScrollPosition > SCROLL_POSITION_GAP + 1) {
     return SCROLL_POSITION_GAP + 1
   } else {
-    return scrollPosition
+    return elementScrollPosition
   }
 }
 
