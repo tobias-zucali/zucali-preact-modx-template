@@ -9,40 +9,24 @@
 }
 
 .foreground {
-  background: #ffffffcc;
-  padding: 2.5em;
+  background: #ffffff;
+  padding: 2em;
   position: relative;
   z-index: 100;
+  margin: 70vh 0 20vh 0;
 
-  @media (max-width: $breakpointSmall - 1) {
-    background: #ffffff;
+  .section:first-of-type & {
+    margin-top: 85vh;
+  }
+
+  @media (min-width: $breakpointXSmall) {
     margin-left: 3em;
     margin-right: 3em;
-    margin-top: 70vh;
-    margin-bottom: -30vh; // use some tricks to change when image is switching
-    width: 100%;
-
-    .section:not(:first-child) & {
-      margin-top: 100vh;
-    }
-    .section:last-child & {
-      margin-bottom: 40vh;
-    }
-  }
-  @media (max-width: $breakpointXSmall - 1) {
-    margin-left: 0;
-    margin-right: 0;
   }
   @media (min-width: $breakpointSmall) {
     margin-left: auto;
-    max-width: 80vw;
-    padding-top: 30vh;
-    padding-bottom: 30vh;
-    width: 28em;
-
-    .section:first-child & {
-      padding-top: 70vh;
-    }
+    margin-right: 2em;
+    width: 26em;
   }
 }
 
@@ -50,35 +34,31 @@
   background: #ffffff;
   font-size: 1.2rem;
   line-height: 1.5;
-  margin: 0;
-  padding: 1em;
-  position: relative;
+  padding: 2em;
+  position: absolute;
+  bottom: 100%;
 
-  @media (max-width: $breakpointSmall - 1) {
-    bottom: 0 !important; // disable inline style
-    margin: -1em -1em 2em -1em;
-  }
   @media (min-width: $breakpointSmall) {
-    right: 35vw;
+    margin: 0;
+    right: 10vw;
     width: 34em;
   }
 }
 .quote:before,
 .quote::after {
-  font-size: 500%;
+  color: #bbbbbb;
+  font-size: 800%;
   position: absolute;
-  text-shadow: 0 0 80px #ffffff;
 }
 .quote:before {
-  bottom: -5.3rem;
+  bottom: -4.4rem;
   content: "”";
-  left: -0.1em;
-
+  left: 0.06em;
 }
 .quote:after {
   content: "“";
-  right: -0.1em;
-  top: -2.8rem;
+  right: 0.06em;
+  top: -2rem;
 }
 .quoteAuthor {
   display: block;

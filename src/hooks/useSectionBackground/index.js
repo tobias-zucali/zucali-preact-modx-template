@@ -57,9 +57,17 @@ const getPositions = (event, sectionElement) => {
     progress = fromTop / visibleHeight
   }
 
+  let limitedFromTop = fromTop / viewportHeight / 2
+  if (limitedFromTop > 1) {
+    limitedFromTop = 1
+  } else if (limitedFromTop < 0) {
+    limitedFromTop = 0
+  }
+
   return {
     top,
     progress,
+    limitedFromTop,
   }
 }
 

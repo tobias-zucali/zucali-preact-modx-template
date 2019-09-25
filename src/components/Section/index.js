@@ -17,6 +17,7 @@ export default function Section({
     progress,
     sectionRef,
     top,
+    limitedFromTop,
     url,
   } = useSectionBackground(page.cover)
 
@@ -34,9 +35,10 @@ export default function Section({
       <div className={style.foreground}>
         {page.quote && (
           <blockquote
-            className={style.quote}
+            data-limitedFromTop={limitedFromTop}
+            className={classnames(style.quote)}
             style={{
-              bottom: `${progress * 400}px`,
+              marginBottom: `${100 * limitedFromTop - 30}vh`,
             }}
           >
             {quote}
