@@ -1,5 +1,7 @@
-const IS_BROWSER = (typeof window !== 'undefined')
-const { scrollingElement } = IS_BROWSER ? window.document : {}
+import isBrowser from '../isBrowser'
+
+
+const { scrollingElement } = isBrowser ? window.document : {}
 
 let isInitialLoad = true
 const scrollPositions = {}

@@ -3,7 +3,9 @@ import isEqual from 'lodash/isEqual'
 
 import useImagePreload from '../useImagePreload'
 import useOnScroll from '../useOnScroll'
+
 import getCmsImageUrl from '../../utils/getCmsImageUrl'
+import isBrowser from '../../utils/isBrowser'
 
 import config from '../../config'
 
@@ -12,9 +14,8 @@ import config from '../../config'
 const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
 
 const SCROLL_POSITION_GAP = 0.5
-const IS_BROWSER = (typeof window !== 'undefined')
 
-const screen = (IS_BROWSER && window.screen) || {
+const screen = (isBrowser && window.screen) || {
   height: 800,
   width: 1200,
 }

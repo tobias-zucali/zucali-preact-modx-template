@@ -1,9 +1,9 @@
 import { useEffect } from 'preact/hooks'
 
+import isBrowser from '../../utils/isBrowser'
 
-const IS_BROWSER = (typeof window !== 'undefined')
 
-const scrollingElement = IS_BROWSER ? window.document.scrollingElement : {}
+const scrollingElement = isBrowser ? window.document.scrollingElement : {}
 
 export const getCallbackArgs = () => ({
   windowHeight: scrollingElement.offsetHeight || 0,
@@ -18,7 +18,7 @@ const executeCallbacks = () => {
     callback(args)
   })
 }
-if (IS_BROWSER) {
+if (isBrowser) {
   let isFrameRequested = false
   const requestFrame = () => {
     window.requestAnimationFrame(() => {
