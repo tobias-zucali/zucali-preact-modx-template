@@ -74,12 +74,12 @@ export default function useSectionBackground(path) {
 
   useEffect(() => {
     if (error) {
-      console.warn(`Loading section background "${path}" failed. Using fallback image "${config.fallbackCoverPath}".`)
+      console.warn(`Loading section background "${backgroundImageUrl}" failed. Using fallback image "${config.fallbackCoverPath}".`)
       setBackgroundImageUrl(
         getBackgroundImageUrl(config.fallbackCoverPath)
       )
     }
-  }, error)
+  }, [error])
 
   const sectionRef = useRef()
   const [positions, setPositions] = useState(-1)

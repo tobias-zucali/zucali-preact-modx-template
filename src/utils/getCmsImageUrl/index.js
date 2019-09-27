@@ -1,4 +1,4 @@
-import { Host } from '../../constants'
+import config from '../../config'
 
 
 const prependedSlash = (src) => (src[0] === '/') ? src : `/${src}`
@@ -20,13 +20,13 @@ export default function getCmsImageUrl({
   let src
   if (height || width) {
     return joinUrl(
-      Host.BASE,
+      config.host.BASE,
       `assets/components/gallery/connector.php?action=web/phpthumb&ctx=web${width ? `&w=${width}` : ''}${height ? `&h=${height}` : ''}&zc=1&far=C&q=90&src=`,
       encodeURIComponent(prependedSlash(path))
     )
   } else {
     return joinUrl(
-      Host.BASE,
+      config.host.BASE,
       path
     )
   }

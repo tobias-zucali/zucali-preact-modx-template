@@ -18,13 +18,10 @@
     background: #ffffff;
     margin-left: 3em;
     margin-right: 3em;
-    margin-top: 70vh;
+    margin-top: 65vh;
     margin-bottom: -30vh; // use some tricks to change when image is switching
     width: 100%;
 
-    .section:not(:first-child) & {
-      margin-top: 100vh;
-    }
     .section:last-child & {
       margin-bottom: 40vh;
     }
@@ -36,7 +33,7 @@
   @media (min-width: $breakpointSmall) {
     margin-left: auto;
     max-width: 80vw;
-    padding-top: 30vh;
+    padding-top: 65vh;
     padding-bottom: 30vh;
     width: 28em;
 

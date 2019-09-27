@@ -2,7 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 
 import getPageHref from '../../utils/getPageHref'
 import fixResourcesAlias from '../../utils/fixResourcesAlias'
-import { Host, ROOT_ID, INSTRUMENTS_ID } from '../../constants'
+import config from '../../config'
 
 
 const IS_BROWSER = (typeof window !== 'undefined')
@@ -12,7 +12,7 @@ const getResources = () => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest()
   xhr.open(
     'GET',
-    `${Host.BASE}/resources.json`,
+    `${config.host.BASE}/resources.json`,
     true
   )
   xhr.responseType = 'json'
@@ -39,7 +39,7 @@ const prepareResources = (resources) => {
     parent,
   }) => {
     // TODO: fix nesting of instruments
-    if (deleted || id === INSTRUMENTS_ID) {
+    if (deleted || id === config.instrumentsFolderId) {
       return acc
     }
     return {
@@ -83,7 +83,7 @@ const prepareResources = (resources) => {
   }
 
   return recursiveGetPageWithChildren({
-    ...resourcesById[ROOT_ID],
+    ...resourcesById[config.rootId],
     href: '/',
   })
 }
