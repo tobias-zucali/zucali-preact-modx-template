@@ -13,11 +13,11 @@ export default function Section({
 }) {
   const intl = useIntl()
   const {
-    isVisible,
+    isLoaded,
     progress,
     sectionRef,
     top,
-    url,
+    backgroundImageUrl,
   } = useSectionBackground(page.cover)
 
   const quote = intl.getTranslatedAttribute(page, 'quote')
@@ -68,10 +68,10 @@ export default function Section({
       <div className={style.background}>
         <div
           className={classnames(style.backgroundImage, {
-            [style.backgroundImage_hidden]: !isVisible,
+            [style.backgroundImage_hidden]: !isLoaded,
           })}
           style={{
-            backgroundImage: `url(${url})`,
+            backgroundImage: `url(${backgroundImageUrl})`,
             top: `${top * 100}%`,
             transform: `scale(${progress * 0.4 + 1})`,
           }}

@@ -1,9 +1,11 @@
-import { useRef, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import isEqual from 'lodash/isEqual'
 
 import useImagePreload from '../useImagePreload'
 import useOnScroll from '../useOnScroll'
 import getCmsImageUrl from '../../utils/getCmsImageUrl'
+
+import config from '../../config'
 
 
 // inspired by https://gist.github.com/gre/1650294 and https://joshondesign.com/2013/03/01/improvedEasingEquations
@@ -63,10 +65,21 @@ const getPositions = (event, sectionElement) => {
   }
 }
 
+const getBackgroundImageUrl = (path) => getCmsImageUrl({ path, ...backgroundImageSize })
+
 
 export default function useSectionBackground(path) {
-  const url = getCmsImageUrl({ path, ...backgroundImageSize })
-  const isCoverImageLoaded = useImagePreload(url)
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState(() => getBackgroundImageUrl(path))
+  const { isLoaded, error } = useImagePreload(backgroundImageUrl)
+
+  useEffect(() => {
+    if (error) {
+      console.warn(`Loading section background "${path}" failed. Using fallback image "${config.fallbackCoverPath}".`)
+      setBackgroundImageUrl(
+        getBackgroundImageUrl(config.fallbackCoverPath)
+      )
+    }
+  }, error)
 
   const sectionRef = useRef()
   const [positions, setPositions] = useState(-1)
@@ -77,11 +90,9 @@ export default function useSectionBackground(path) {
     }
   })
 
-  const isVisible = isCoverImageLoaded
-
   return {
-    url,
-    isVisible,
+    backgroundImageUrl,
+    isLoaded,
     sectionRef,
     ...positions,
   }
