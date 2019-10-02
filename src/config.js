@@ -8,4 +8,7 @@ export default {
   },
   instrumentsFolderId: 32,
   rootId: 1,
+  templates: {
+    guitarGroup: 9,
+  },
 }
