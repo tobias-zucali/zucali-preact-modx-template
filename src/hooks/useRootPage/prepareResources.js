@@ -5,7 +5,7 @@ import fixResourcesAlias from '../../utils/fixResourcesAlias'
 import config from '../../config'
 
 
-const getAllChildIds = (resources) => {
+export const getAllChildIds = (resources) => {
   const regularChildIds = resources.reduce((acc, {
     deleted,
     id,
@@ -23,20 +23,27 @@ const getAllChildIds = (resources) => {
     }
   }, {})
 
-  // const allChildIds = regularChildIds[config.instrumentsFolderId].reduce(
+  return regularChildIds
+
+  // const instrumentFolderChildIds = regularChildIds[config.instrumentsFolderId]
+  // const allChildIds = instrumentFolderChildIds.reduce(
   //   (acc, instrumentPageId) => {
   //     const instrumentResource = resources[instrumentPageId]
   //     if (!instrumentResource || !instrumentResource.tags) {
   //       return acc
   //     }
-  //     const tags = instrumentResource.split('|').map(parseInt).filter(isNumber)
-  //     const instrumentChildIds =
-
+  //     const instrumentParents = instrumentResource.tags.split('|').map(parseInt).filter(isNumber)
+  //     return instrumentParents.reduce((instrumentAcc, parentId) => ({
+  //       ...instrumentAcc,
+  //       [parentId]: [
+  //         ...(instrumentAcc[parentId] || []),
+  //         instrumentPageId,
+  //       ],
+  //     }), acc)
   //   },
-  //   regularChildIds
+  //   {}
   // )
   // return allChildIds
-  return regularChildIds
 }
 
 const preparePage = ({ page, parentPages = [], childPages = [] }) => {
