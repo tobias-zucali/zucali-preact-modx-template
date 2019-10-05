@@ -5,6 +5,8 @@ import classnames from 'classnames'
 import useSectionBackground from '../../hooks/useSectionBackground'
 import useIntl from '../../hooks/useIntl'
 
+import config from '../../config'
+
 import style from './style.scss'
 
 
@@ -24,6 +26,7 @@ export default function Section({
   const quoteAuthor = intl.getTranslatedAttribute(page, 'quoteAuthor')
   const pagetitle = intl.getTranslatedAttribute(page, 'pagetitle')
   const content = intl.getTranslatedAttribute(page, 'content')
+  const buttonText = intl.getTranslatedAttribute(page, 'buttonText')
 
   return (
     <div
@@ -60,7 +63,7 @@ export default function Section({
               href={page.href}
               className={style.sectionLink}
             >
-              TODO: nice button text
+              {buttonText || 'TODO: add nice button text'}
             </a>
           )}
         </Match>
@@ -73,7 +76,7 @@ export default function Section({
           style={{
             backgroundImage: `url(${backgroundImageUrl})`,
             top: `${top * 100}%`,
-            transform: `scale(${progress * 0.4 + 1})`,
+            transform: `scale(${progress * (config.sections.zoomFactor - 1) + 1})`,
           }}
         />
       </div>
