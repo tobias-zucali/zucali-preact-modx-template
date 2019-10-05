@@ -5,8 +5,19 @@ import fixResourcesAlias from '../../utils/fixResourcesAlias'
 import config from '../../config'
 
 
-export const getAllChildIds = (resources) => {
-  const regularChildIds = resources.reduce((acc, {
+export const getResourcesById = (resources) => fixResourcesAlias(resources).reduce((acc, page) => ({
+  ...acc,
+  [page.id]: page,
+}), {})
+
+export const parseIdString = (idString = '') => idString.split('|').map(
+  (stringPart) => parseInt(stringPart, 10)
+).filter(
+  (id) => !Number.isNaN(id)
+)
+
+export const getAllChildIds = (resourcesById) => {
+  const regularChildIds = Object.values(resourcesById).reduce((acc, {
     deleted,
     id,
     parent,
@@ -23,27 +34,28 @@ export const getAllChildIds = (resources) => {
     }
   }, {})
 
-  return regularChildIds
+  // return regularChildIds
 
-  // const instrumentFolderChildIds = regularChildIds[config.instrumentsFolderId]
-  // const allChildIds = instrumentFolderChildIds.reduce(
-  //   (acc, instrumentPageId) => {
-  //     const instrumentResource = resources[instrumentPageId]
-  //     if (!instrumentResource || !instrumentResource.tags) {
-  //       return acc
-  //     }
-  //     const instrumentParents = instrumentResource.tags.split('|').map(parseInt).filter(isNumber)
-  //     return instrumentParents.reduce((instrumentAcc, parentId) => ({
-  //       ...instrumentAcc,
-  //       [parentId]: [
-  //         ...(instrumentAcc[parentId] || []),
-  //         instrumentPageId,
-  //       ],
-  //     }), acc)
-  //   },
-  //   {}
-  // )
-  // return allChildIds
+  const instrumentFolderChildIds = regularChildIds[config.instrumentsFolderId]
+  const instrumentChildIds = instrumentFolderChildIds.reduce(
+    (acc, instrumentPageId) => {
+      const instrumentParents = parseIdString(resourcesById[instrumentPageId].tags)
+
+      return instrumentParents.reduce((instrumentAcc, instrumentParent) => ({
+        ...instrumentAcc,
+        [instrumentParent]: [
+          ...(instrumentAcc[instrumentParent] || []),
+          instrumentPageId,
+        ],
+      }), acc)
+    },
+    {}
+  )
+
+  return {
+    ...regularChildIds,
+    ...instrumentChildIds,
+  }
 }
 
 const preparePage = ({ page, parentPages = [], childPages = [] }) => {
@@ -64,11 +76,8 @@ const preparePage = ({ page, parentPages = [], childPages = [] }) => {
 
 
 export default function prepareResources(resources) {
-  const allChildIds = getAllChildIds(resources)
-  const resourcesById = fixResourcesAlias(resources).reduce((acc, page) => ({
-    ...acc,
-    [page.id]: page,
-  }), {})
+  const resourcesById = getResourcesById(resources)
+  const allChildIds = getAllChildIds(resourcesById)
 
   const recursiveGetPageWithChildren = (page, parentPages = []) => {
     const preparedPage = preparePage({ page, parentPages })

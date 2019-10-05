@@ -1,14 +1,26 @@
-import prepareResources, { getAllChildIds } from '../prepareResources'
+import prepareResources, { parseIdString, getResourcesById, getAllChildIds } from '../prepareResources'
 import devData from '../../../../devData.json'
 
-
 describe('prepareResources', () => {
-  it('matches the child ids snapshot', () => {
+  it('parses an id string', () => {
     expect(
-      getAllChildIds(devData)
+      parseIdString('19||136')
+    ).toEqual(
+      [19, 136])
+  })
+  it('sorts resources by id', () => {
+    expect(
+      getResourcesById(devData)
     ).toMatchSnapshot()
   })
-  it('matches the pages snapshot', () => {
+  it('prepares child ids', () => {
+    expect(
+      getAllChildIds(
+        getResourcesById(devData)
+      )
+    ).toMatchSnapshot()
+  })
+  it('prepares pages', () => {
     expect(
       prepareResources(devData)
     ).toMatchSnapshot()
